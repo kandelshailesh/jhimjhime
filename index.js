@@ -89,7 +89,7 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var MySQLEvents = require('mysql-events');
 var deferred = require('deferred');
-var reload = require('reload');
+// var reload = require('reload');
 var nepali = require('get-nepali-number');
 
 var con = mysql.createConnection({
