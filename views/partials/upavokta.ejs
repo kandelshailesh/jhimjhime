@@ -1,0 +1,48 @@
+<div class="row mt-3">
+    <div class="col-md-2">
+        <div class="list-group ">
+            <a class="list-group-item upavoktaadd upavoktaform-1" id="upavoktaform-1">उपभाेक्ता थप</a>
+            <a class="list-group-item upavoktakhoj upavoktaform-2" id="upavoktaform-2">उपभाेक्ता खाेज</a>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <form class="upavoktaaddform" action="" onkeypress="return event.keyCode != 13;">
+            <div class="row upavoktaformshow-1">
+                <div class="col-md-10">
+                    <br>
+                    <table class="table  upavoktatable  table-sm">
+                        <tr class=" m-0  row text-center">
+                            <th class="col-md-1">उपभाेक्ता नं</th>
+                            <th class="col-md-3">नाम</th>
+                            <th class="col-md-3">थर </th>
+                            <th class="col-md-3">ठेगाना</th>
+                            <th class="col-md-2">लिङ्ग</th>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn float-right btn-outline-primary printbutton">Submit</button>
+                    <button type="reset" id="resetuserform" class="btn btn-outline-primary d-none">Reset</button>
+                </div>
+            </div>
+        </form>
+        <form class='upavoktakhojform '>
+            <div class='upavoktakhoj upavoktaformshow-2 d-none  row form-group'>
+                <div class="col-md-8 mt-4">
+                    <select class='form-control d-inline w-25 ml-3' id='upavoktakhojaddress' name='upavoktakhojaddress'>
+                        <option value='0'>सबै</option>
+                        <option value='1'>झिमझिमिया गाउटोल</option>
+                        <option value='2'>काेटियाथान टोल</option>
+                        <option value='3'>शान्ति टोल</option>
+                        <option value='4'>बेम्तहनी टोल</option>
+                    </select><select name='upavoktakhojsex' class='form-control ml-2 d-inline w-25' id='upavoktakhojsex'>
+                        <option value='2'>सबै</option>
+                        <option value='0'>पुरुष</option>
+                        <option value='1'>महिला</option>
+                    </select>
+                    <a class='btn ml-2 btn-outline-primary col-md-1 upavoktakhojbutton'>खाेज</a>
+                </div>
+                <div class="col-md-8 mt-2 appendsearch">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
