@@ -119,7 +119,7 @@ console.log(mysqleventwatcher);
 
 
 const app = express();
-reload(app);
+// reload(app);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
