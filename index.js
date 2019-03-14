@@ -721,7 +721,7 @@ app.post('/pay/:id', function(req, res) {
                 var data4 = [];
                 console.log("A is " + length);
                 if (length === 1) {
-                    data.push(getenglish(a['gullino']), a['kaathname'], a['collectiontype'], a['unit'], a['quantity']);
+                    data.push(getenglish(a['gullino']), a['kaathname'], a['collectiontype'], a['unit'],getenglish(a['quantity']));
                     data1.push(collectiontype(a['collectiontype']));
                     data2.push(Number(a['quantity']));
                     data3.push(a['kaathname']);
@@ -729,9 +729,9 @@ app.post('/pay/:id', function(req, res) {
 
                 } else {
                     for (i = 0; i < length; i++) {
-                        data.push([getenglish(a['gullino'][i]), a['kaathname'][i], a['collectiontype'][i], a['unit'][i], a['quantity'][i]]);
+                        data.push([getenglish(a['gullino'][i]), a['kaathname'][i], a['collectiontype'][i], a['unit'][i], getenglish(a['quantity'][i])]);
                         data1.push(collectiontype(a['collectiontype'][i]));
-                        data2.push(Number(a['quantity'][i]));
+                        data2.push(Number(getenglish(a['quantity'][i])));
                         data3.push(a['kaathname'][i]);
                         // data4.push(a['grade'][i]);
 
@@ -832,7 +832,7 @@ app.post('/pay/:id', function(req, res) {
                 //     }
                 // }
                 // console.log("Data is " + data)
-                console.log("Data1 is" + data1)
+                // console.log("Data1 is" + data1)
 
                 var ghaasbikri="INSERT INTO `ghaasbikri`(`ghaas`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";
                 var daurabikri="INSERT INTO `daurabikri`(`daura`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";

@@ -9,7 +9,7 @@ for (var i = 1; i < 2; i++) {
        <td   class="col-md-3 p-0"><input  list="type" name="collectiontype" id="collectiontype-${i}"  class="form-control" /></td>
 
       <td  class="col-md-2 p-0"><input list="unit" autocomplete="off" name="unit"  id="unit-${i}"  class="form-control"  /></td>
-      <td   class="col-md-2 p-0"><input onkeypress="createnew(event)" name="quantity" id="quantity-${i}"  type="number" min="0" class="form-control" /></td>
+      <td   class="col-md-2 p-0"><input onkeypress="createnew(event)" name="quantity" id="quantity-${i}"  class="form-control" /></td>
 
     </tr>`)
 }
@@ -40,7 +40,7 @@ function createnew(e)
        <td   class="col-md-3 p-0"><input  list="type" name="collectiontype" id="collectiontype-${i}"  class="form-control" /></td>
 
       <td  class="col-md-2 p-0"><input list="unit" autocomplete="off" name="unit"  id="unit-${i}"  class="form-control"  /></td>
-      <td   class="col-md-2 p-0"><input onkeypress="createnew(event)" name="quantity" id="quantity-${i}"  type="number" min="0" class="form-control" /></td>
+      <td   class="col-md-2 p-0"><input onkeypress="createnew(event)" name="quantity" id="quantity-${i}"  class="form-control" /></td>
 
     </tr>`)
     
