@@ -131,7 +131,7 @@ app.post('/getdetailtitlebymonth',function(req,res)
 {
 var total=0;
 console.log(req.body);
-var getdetailtitle="SELECT sum(pt.dcamount) as totalamount,pt.account from paymenttable as pt inner join accountinformation as ai on pt.account=ai.accountname inner join kagroups as kag on ai.title=kag.id where kag.katitle=? and MONTH(pt.paymentdate) = ? group by account";
+var getdetailtitle="SELECT sum(pd.amount) as totalamount,pd.subaccount from paymentdetails as pd inner join accountinformation as ai on pd.subaccount=ai.accountname inner join kagroups as kag on ai.title=kag.id where kag.katitle=? and MONTH(pd.paymentdate) = ? group by subaccount";
 con.query(getdetailtitle,[req.body.titlename,req.body.count],function(err,result,fields)
 {
     if(err) console.log(err);
@@ -219,11 +219,14 @@ app.get('/kaathdaura', function(req, res) {
 
 app.get('/ledger',function(req,res)
 {
-    var selectdata= "SELECT * from kagroups; SELECT sum(pt.dcamount) as totalamount,ai.title,kag.katitle,kag.type from paymenttable as pt inner join accountinformation as ai on pt.account=ai.accountname inner join kagroups as kag on ai.title=kag.id GROUP by title";
+    // var selectdata= "SELECT * from kagroups; SELECT sum(pt.dcamount) as totalamount,ai.title,kag.katitle,kag.type from paymenttable as pt inner join accountinformation as ai on pt.account=ai.accountname inner join kagroups as kag on ai.title=kag.id GROUP by title";
+     var selectdata= "SELECT * from kagroups; SELECT sum(pd.amount) as totalamount,ai.title,kag.katitle,kag.type from paymentdetails as pd inner join accountinformation as ai on pd.subaccount=ai.accountname inner join kagroups as kag on ai.title=kag.id GROUP by title";
     var totalkharcha=0;
     var totalaamdani=0;
     con.query(selectdata,function(err,result,fields)
     {
+        if(result[1].length>0)
+        {
         for(i=0;i<result[1].length;i++)
         {
              if(result[1].type==='k')
@@ -241,6 +244,11 @@ app.get('/ledger',function(req,res)
         totalkharcha= getnepali(totalkharcha);
         totalaamdani= getnepali(totalaamdani);
         res.render('pages/groupledger',{results:result[0],results1:result[1],totalkharcha:totalkharcha,totalaamdani:totalaamdani});
+    }
+    else
+    {
+        res.render('pages/groupledger',{results:'',results1:'',totalkharcha:'',totalaamdani:''});
+    }
     })
 })
 app.get('/ghumtikoshsearch', function(req, res) {
@@ -795,36 +803,43 @@ app.post('/pay/:id', function(req, res) {
                 console.log("Length is "+length);
                 var data = [];
                 console.log("A is " + a);
-                var kaathbikridetailsrecord = [a['bikritypes'], a['accountname'], a['totalamount'], a['salesdate']];
-                if (length===1) {
-                    if (a['gullino'] !== '') {
-                        data.push([a['gullino'], a['kaathname'], a['quantity'], a['per'], a['amount']]);
-                        data1.push(collectiontype(a['bikritypes']));
-                        data2.push(parseInt(getenglish(a['quantity'])));
-                        data3.push(a['kaathname']);
-                        // data4.push(a['kaathgrade']);
-                    }
-                } else {
-                    loop1: for (i = 0; i < a.totallist; i++) {
-                        if (a['gullino'][i] === '') {
-                            break loop1;
-                        }
-                        data.push([a['gullino'][i], a['kaathname'][i], a['quantity'][i], a['per'][i], a['amount'][i]]);
-                        data1.push(collectiontype(a['bikritypes']));
-                        data2.push(parseInt(getenglish(a['quantity'][i])));
-                        data3.push(a['kaathname'][i]);
-                        // data4.push(a['kaathgrade'][i]);
-                    }
-                }
-                console.log("Data is " + data)
+                var kaathbikridetailsrecord = [a['bikritypes'],getenglish(a['userid']),a['accountname'],getenglish(a['totalamount']), a['salesdate']];
+                // if (length===1) {
+                //     if (a['gullino'] !== '') {
+                //         data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount'])]);
+                //         data1.push(collectiontype(a['bikritypes']));
+                //         data2.push(parseInt(getenglish(a['quantity'])));
+                //         data3.push(a['kaathname']);
+                //         // data4.push(a['kaathgrade']);
+                //     }
+                // } else {
+                //     loop1: for (i = 0; i < a.totallist; i++) {
+                //         if (a['gullino'][i] === '') {
+                //             break loop1;
+                //         }
+                //         data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i])]);
+                //         data1.push(collectiontype(a['bikritypes']));
+                //         data2.push(parseInt(getenglish(a['quantity'][i])));
+                //         data3.push(a['kaathname'][i]);
+                //         // data4.push(a['kaathgrade'][i]);
+                //     }
+                // }
+                // console.log("Data is " + data)
                 console.log("Data1 is" + data1)
 
-
+                var ghaasbikri="INSERT INTO `ghaasbikri`(`ghaas`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";
+                var daurabikri="INSERT INTO `daurabikri`(`daura`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";
+                var dataghaas=[];
+                var datadaura=[];
+               
                 //   console.log("titleformdata"+titleformdata);
-                var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`, `personname`, `total`, `salesdate`) values ?";
+                var lastid;
+                var selectlastid= "select * from kaathbikridetails ORDER by id desc";
+                var insertintokaathbikri= "INSERT INTO `kaathbikri`(`gullino`, `kaathname`, `unit`, `quantity`, `price`,`bikriid`) VALUES ?";
+                var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`customerid`,`personname`, `total`, `salesdate`) values ?";
                 con.query(insert1, [[kaathbikridetailsrecord]], function(err, result) {
                     // console.log([paymentdata]);
-                    if (err) throw err;
+                    if (err) console.log(err);
                     // {
                     //    // console.log(err);
                     //    // error=err;
@@ -835,14 +850,125 @@ app.post('/pay/:id', function(req, res) {
                     // }
 
                     console.log("Submitted");
-                    // console.log("Number of records inserted: " + result.affectedRows);
+                    console.log("jeed");
+                     con.query(selectlastid,function(err,result1,fields)
+                   {   
+                    if(err) {console.log(err)};
+                    console.log("HEllo"+result1);
+                    lastid=result1[0].id;
+                    console.log("Lastid is "+ lastid);
+                    if (length===1) {
+                    if (a['gullino'] !== '') {
+                        data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount']),lastid]);
+                        data1.push(collectiontype(a['bikritypes']));
+                        data2.push(parseInt(getenglish(a['quantity'])));
+                        data3.push(a['kaathname']);
+                        // data4.push(a['kaathgrade']);
+                    }
+                } else if(length>1) {
+                    loop1: for (i = 0; i < a.totallist; i++) {
+                        if (a['gullino'][i] === '') {
+                            break loop1;
+                        }
+                        data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),lastid]);
+                        data1.push(collectiontype(a['bikritypes']));
+                        data2.push(parseInt(getenglish(a['quantity'][i])));
+                        data3.push(a['kaathname'][i]);
+                        // data4.push(a['kaathgrade'][i]);
+                    }
+                }
+                var ghaastotal=getenglish(a['ghaastotal']);
+                var dauratotal=getenglish(a['daauratotal']);
+                console.log("ghaastotal IS "+ghaastotal);
+                console.log("dauratotal IS "+dauratotal);
+
+                 if(parseInt(ghaastotal)>0)
+                {
+                    console.log("Ghaas total");
+                    dataghaas.push(['घाँस',getenglish(a['ghaasquantity']),getenglish(a['ghaasper']),getenglish(a['ghaastotal']),lastid]);
+                     con.query(ghaasbikri,[dataghaas],function(err,result3)
+                    {
+                        if(err) console.log(err);
+
+                    })
+                }
+                if(parseInt(dauratotal)>0)
+                {
+                    console.log("Daura total");
+                    datadaura.push(['दाउरा',getenglish(a['daauraquantity']),getenglish(a['daauraper']),getenglish(a['daauratotal']),lastid])
+                    con.query(daurabikri,[datadaura],function(err,result3)
+                    {
+                        if(err) console.log(err);
+
+                    })
+                }
+               if(length>0)
+               {
+                 con.query(insertintokaathbikri,[data],function(err,result2)
+               
+                {
+                    if(err) console.log(err);
+                });
+                }
+                })
+                // console.log(data1);
+                // console.log(data2);
+                // console.log(data3);
+                // console.log(data4);
+                // data.push(1);
+
+                 
+
+                 
+               
+
+                    console.log("Number of records inserted: " + result.affectedRows);
                     // res.json({'result':'Submitted'});
                 });
-                console.log(data1);
-                console.log(data2);
 
+                 console.log(data1);
+                console.log(data2);
                 console.log(data3);
-                // console.log(data4);
+                console.log("Data is " + data)
+                // var lastid;
+                // var selectlastid= "select * from kaathbikridetails ORDER by id desc limit 1";
+                // con.query(selectlastid,function(err,result,fields)
+                // {
+                //     lastid=result.id;
+                // })
+                // console.log(data1);
+                // console.log(data2);
+                // console.log("Lastid is "+ lastid);
+                // console.log(data3);
+                // // console.log(data4);
+                // // data.push(1);
+
+                //  if (length===1) {
+                //     if (a['gullino'] !== '') {
+                //         data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount']),lastid]);
+                //         data1.push(collectiontype(a['bikritypes']));
+                //         data2.push(parseInt(getenglish(a['quantity'])));
+                //         data3.push(a['kaathname']);
+                //         // data4.push(a['kaathgrade']);
+                //     }
+                // } else {
+                //     loop1: for (i = 0; i < a.totallist; i++) {
+                //         if (a['gullino'][i] === '') {
+                //             break loop1;
+                //         }
+                //         data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),lastid]);
+                //         data1.push(collectiontype(a['bikritypes']));
+                //         data2.push(parseInt(getenglish(a['quantity'][i])));
+                //         data3.push(a['kaathname'][i]);
+                //         // data4.push(a['kaathgrade'][i]);
+                //     }
+                // }
+                // console.log("Data is " + data)
+                //  var insertintokaathbikri= "INSERT INTO `kaathbikri`(`gullino`, `kaathname`, `unit`, `quantity`, `price`,`bikriid`) VALUES ?";
+                // con.query(insertintokaathbikri,[data],function(err,result)
+                // {
+                //     if(err) console.log(err);
+                // });
 
                 for (i = 0; i < data1.length; i++) {
                     var update1 = `UPDATE kaathdetails set ${data1[i]}=${data1[i]}+?,totalbikri=totalbikri+?,remaining=totalkaath-totalbikri where kaathname=? `;
@@ -888,11 +1014,56 @@ app.post('/pay/:id', function(req, res) {
         
 
 
-        console.log(transactionno); res.render('pages/kaathdaura', { results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3], error: error });
+        console.log(transactionno);
+        return res.redirect('/kaathdaura'); 
+
+        // res.render('pages/kaathdaura', { results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3], error: error });
     });
 
 
 });
+
+
+app.post('/banpaidawar',function(req,res)
+{
+
+console.log(req.body);
+
+var getdetailkaath="SELECT sum(kb.price) as price,kb.kaathname,kbd.salesdate FROM `kaathbikri` as kb inner join kaathbikridetails as kbd on kb.bikriid=kbd.id where kbd.salesdate between ? and ? group by kaathname,salesdate;SELECT sum(db.amount) as price,db.daura,kbd.salesdate FROM `daurabikri` as db inner join kaathbikridetails as kbd on db.bikriid=kbd.id where kbd.salesdate between ? and ? group by db.daura,kbd.salesdate;SELECT sum(gb.amount) as price,gb.ghaas,kbd.salesdate FROM `ghaasbikri` as gb inner join kaathbikridetails as kbd on gb.bikriid=kbd.id where kbd.salesdate between ? and ? group by gb.ghaas,kbd.salesdate";
+var status=0;
+con.query(getdetailkaath,[req.body.banpaidawarinitialdate,req.body.banpaidawarfinaldate,req.body.banpaidawarinitialdate,req.body.banpaidawarfinaldate,req.body.banpaidawarinitialdate,req.body.banpaidawarfinaldate],function(err,result)
+{
+    if(err) console.log(err);
+    console.log("Result is"+ result);
+    console.log(result[0]);
+    console.log(result[1]);
+    for(i=0;i<3;i++)
+    {
+    for(j=0;j<result[i].length;j++)
+    {
+        result[i][j].price=getnepali(result[i][j].price);
+        status=1;
+    }
+}
+    console.log(result[2]);
+
+    res.render('pages/banpaidawar',{'status':status,'result0':result[0],'result1':result[1],'result2':result[2]})
+})
+})
+
+app.get('/banpaidawar',function(req,res)
+{
+
+
+// var kaathdaurarecord="SELECT * from kaathbikri;select * from ghaasbikri;select * from daurabikri;SELECT * from kaathnamelist";
+// con.query(kaathdaurarecord,function(err,result)
+// {
+//     if(err) console.log(err);
+//     res.render('pages/banpaidawar',{'kaath':result[0],'ghaas':result[1],'daura':result[2],'kaathname':result[3]})
+// })
+res.render('pages/banpaidawar',{'result0':[],'status':0,'result1':[],'result2':[]});
+})
+
 app.post('/upavoktakhoj', function(req, res) {
 
     var upavoktakhojformdata = [req.body.upavoktakhojformObj];
@@ -1042,7 +1213,7 @@ app.post('/modifypadhadhikaarisubmit', function(req, res) {
 
 
 app.get('/pay', function(req, res) {
-    var accountquery = "SELECT * from kagroups; SELECT * from paymenttable;select * from accountinformation;select * from title";
+    var accountquery = "SELECT * from kagroups; select * from accountinformation as ai inner join kagroups as kg on ai.title=kg.id ;select * from title";
     con.query(accountquery, function(err, results, fields) {
         // console.log(results[0]);
         // console.log(results[1]);
@@ -1051,16 +1222,17 @@ app.get('/pay', function(req, res) {
         // if (err) throw err;
         // console.log(result[0].accountname);
         // console.log("Number of records inserted: " + result.affectedRows);
-        if (results[1].length === 0) {
-            transactionno = 0;
-        } else {
-            for (var i = 0; i < results[1].length; i++) {
-                transactionno = parseInt(results[1][i]['transactionno']);
-            }
-        }
+        // if (results[1].length === 0) {
+        //     transactionno = 0;
+        // } else {
+        //     for (var i = 0; i < results[1].length; i++) {
+        //         transactionno = parseInt(results[1][i]['transactionno']);
+        //     }
+        // }
+        transactionno=1;
 
         console.log(transactionno);
-        res.render('pages/pay', { error: '', results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3] });
+        res.render('pages/pay', { error: '', results: results[0],accountinformation:results[1], transactionno: transactionno});
     });
     // res.render('pages/payment',);
 });
@@ -1100,12 +1272,13 @@ app.post('/accountsubmit', (req, res) => {
     // console.log(paymentdata);
  
         console.log("Hello");
-        var accountquery = "INSERT INTO accountinformation(accountname,title,fiscalyear,previousyearamount) VALUES ? ";
+        var accountquery = "INSERT INTO accountinformation(accountname,title) VALUES ? ";
         con.query(accountquery, [accountdata], function(err, result) {
             if (err) console.log(err);
 
             // console.log("Number of records inserted: " + result.affectedRows);
             res.json({ 'result': 'Submitted' });
+            // return res.redirect('/pay');
         });
     
 })
@@ -1189,47 +1362,21 @@ app.post('/daybookkhoj',(req,res) =>
     var date1 = req.body.initialdate;
     var date2 = req.body.finaldate;
     console.log(date1);
-    var accountquery = "SELECT pd.narration,DATE_FORMAT(pd.paymentdate,'%Y-%m-%d') as paymentdate,pd.transactionno,count(pt.transactionno) as transactionlength from paymentdetails as pd inner join paymenttable as pt on pd.transactionno=pt.transactionno where pd.paymentdate between ? and ? group by pt.transactionno,pd.paymentdate,pd.narration";
-    var innerquery= "SELECT * from paymenttable where transactionno=?";
-    var daybookdict={};
-    var count=0;
+    var accountquery = "SELECT DATE_FORMAT(paymentdate,'%Y-%m-%d') as paymentdate,subaccount,type,amount,narration from paymentdetails where paymentdate between ? and ?";
+    // var innerquery= "SELECT * from paymenttable where transactionno=?";
+    // var daybookdict={};
+    // var count=0;
     con.query(accountquery,[date1,date2],function(err,result)
     {   
         console.log(result);
-        if(result.length>0)
+        for(i=0;i<result.length;i++)
         {
-        console.log(result[count].transactionno);
-        console.log(result[count].paymentdate);
-        daybookdict[count]={'transactionno':1,'paymentdate':3,'narration':'HEll','title':['S']};
-    daybookdict[count]['transactionno']=1;
-       daybookdict[count]['paymentdate']=2;
-
-        daybookdict[count]['transactionno']=result[count].transactionno;
-        daybookdict[count]['paymentdate']=result[count].paymentdate;
-        con.query(innerquery,[result[count].transactionno],(err,results,fields)=>{
-
-        console.log(results);
-        for(i=0;i<results[i].length;i++)
-        {
-        if(results[i].dctype==='के')
-        {
-            
-        daybookdict[count]['title']=results.account;
-    }
-    else
-    {
-     daybookdict[count]['title']=results.account;
-
-        //  daybookdict[count]['debit'][i]=2400;
-        // daybookdict[count]['debit'][i]+={'dcamount':results[i].dcamount}
-    }
-    }
-})
-        console.log(daybookdict);
-    count++;
-}
+            result[i].amount=getnepali(result[i].amount);
+        
+        }
+        res.json({'results':result});
     })
-     res.json({'result':daybookdict});
+    
 })
 app.post('/daybookreturn', (req, res) => {
 
@@ -1668,68 +1815,57 @@ app.get('/trialbalance', (req, res) => {
         res.render('pages/trialbalance', { results: results, totaldebit: totaldebit, totalcredit: totalcredit });
     });
 });
-app.post('/paymentsubmit', (req, res) => {
+app.post('/paymentsubmit',function(req, res) {
     // console.log(req.body.op);
-    var paymentdata = req.body.op;
-    var paymentdatadetails = req.body.paymentdetails;
+    var paymentdata = req.body.o;
+
+    // var paymentdatadetails = req.body.paymentdetails;
 
     console.log(paymentdata);
+    paymentdata[3]=parseInt(getenglish(paymentdata[3]));
+    console.log(paymentdata);
+
     // paymentdata=paymentdata[0];
     // console.log(paymentdata);
-    var transactionno = paymentdata[0][4];
-    console.log(`Transaction no is ${transactionno}`);
+    // var transactionno = paymentdata[0][4];
+    // console.log(`Transaction no is ${transactionno}`);
     var i;
     var accountdetails = [];
-    for (i = 0; i < paymentdata.length; i++) {
-        accountdetails.push([paymentdata[i][2], paymentdata[i][1]])
-    }
+    // for (i = 0; i < paymentdata.length; i++) {
+        // accountdetails.push([paymentdata[i][2], paymentdata[i][1]])
+    // }
 
-    console.log(accountdetails);
+    // console.log(accountdetails);
 
     //   var values = [
     //   { users: "tom", id: 101 },
     //   { users: "george", id: 102 }
     // ];
-    var queries = '';
+    // var queries = '';
 
-    accountdetails.forEach(function(item) {
+    // accountdetails.forEach(function(item) {
 
-        queries += mysql.format("UPDATE accountinformation SET amount = amount + ? WHERE accountname = ?; ", item);
-    });
-    console.log(queries);
+        // queries += mysql.format("UPDATE accountinformation SET amount = amount + ? WHERE accountname = ?; ", item);
+    // });
+    // console.log(queries);
 
-    // con.query(queries,params,callback);
+    // // con.query(queries,params,callback);
 
-    con.query(queries);
+    // con.query(queries);
 
 
-    var insert1 = "INSERT INTO paymenttable(dctype,account,dcamount,vouchertype,transactionno) VALUES ? ";
+    var insert1 = "INSERT INTO paymentdetails(type,paymentdate,subaccount,amount,narration) VALUES (?) ";
     con.query(insert1, [paymentdata], function(err, result) {
         // console.log([paymentdata]);
         if (err) throw err;
         // console.log("Number of records inserted: " + result.affectedRows);
         console.log(result);
-        // res.json({'transactionno':parseInt(transactionno)+1});
+        console.log("He");
+
+        res.json({'transactionno':parseInt(transactionno)+1});
     });
-    var insert2 = "INSERT INTO paymentdetails(transactionno,narration,paymentdate,vouchertype,voucherno) VALUES ? ";
-    con.query(insert2, [
-        [paymentdatadetails]
-    ], function(err, result) {
-        // console.log([paymentdata]);
-        if (err) console.log(err);
-        // console.log("Number of records inserted: " + result.affectedRows);
-        console.log(result);
-        res.json({ 'transactionno': parseInt(transactionno) + 1 });
-    });
-    //   var insert3="UPDATE `accountinformation` set `amount`=`amount` + ? where `accountname`=? ";
-    //  con.query(insert3,[accountdetails],function(err,result)
-    // {
-    //   // console.log([paymentdata]);
-    // if (err) console.log(err);
-    // // console.log("Number of records inserted: " + result.affectedRows);
-    // console.log(result);
-    // // res.json({'transactionno':parseInt(transactionno)+1});
-    // });
+     // return res.redirect('/pay');
+    
 
 
 })

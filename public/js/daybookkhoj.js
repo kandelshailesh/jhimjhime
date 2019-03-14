@@ -23,8 +23,43 @@ $("#daybookkhoj").on('click',function(e)
 		    success:function(data)
 		    {
 		    console.log(data);
+		    if(data.results.length>0)
+{
+	$('.daybookdiv').html('');
+	 $('.daybookdiv').append(`<table class="table table-bordered table-hover daybooktable">
+                        <tr>
+                            <th> मिति</th>
+                            <th> प्रकार</th>
+                            <th> उपशीर्षक</th>
+                            <th> मूल्य</th>
+
+                            <th> सारांश </th>
+                        </tr>
+                    </table>`);
+data.results.forEach(function(result)
+{ 
+	// console.log(result);
+
+	
+    $('.daybooktable').append(`<tr class="row-${result.transactionno}">
+    <td >  ${result.paymentdate} </td>    
+    <td > ${result.type} </td>
+    <td> ${result.subaccount} </td>
+    <td> ${result.amount} </td>
+    <td> ${result.narration} </td>
+   </tr> `)
+});
+}
+else
+{
+	$('.daybookdiv').html('');
+	$('.daybookdiv').append('<p> डाटा उपलब्ध भयन </p>');
+}
+}
+// $('.daybooktable').append('</tr></table>');
+		    
+		})
 		    
 		}
 		})
-	}
-})
+	
