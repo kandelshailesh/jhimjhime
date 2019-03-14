@@ -40,12 +40,12 @@ $(document).on('keyup','[id^=anyetotal-]',function(e)
   // alert('He');
   // e.preventDefault();
   console.log(e.keyCode);
-var targetid= parseInt(e.target.id.split('-')[1])+1;
+var targetid= Number(e.target.id.split('-')[1])+1;
 console.log(targetid);
 if(e.keyCode===13)
 {
-  alert("Eh");
- $("div.anyetable").append(`<div class="col-md-12">
+  // alert("Eh");
+ $("div.anyetable").append(`<div class=" anyetable col-md-12">
              <input type="text" class="form-control  rounded-0 text-center d-inline w-25" placeholder="नाम" name="anyename" id="anyename-${targetid}">
             <input type="text" class="form-control  rounded-0 text-center d-inline w-25" placeholder="परिमाण" name="anyequantity" id="anyequantity-${targetid}">
             <input type="text"  style="width:80px;" class="form-control  rounded-0 text-center d-inline " placeholder="मूल्य/चट्टा"  id="per${targetid}-anye" name="anyeper">
@@ -138,7 +138,10 @@ function printbill(event)
    var upavoktaid;
    var upavoktaname;
    var title;
-   if(bikritype==='उपभाेक्ता भित्र बिक्री')
+   var billno= $("#billno").val();
+
+
+   if(bikritype==='उपभाेक्ता भित्र विक्री')
   {  
   upavoktaid=$("#userid").val();
    upavoktaname=$("#username").val();
@@ -151,14 +154,16 @@ upavoktaname=$("#username").val();
 
 if(bikritype==="उपभाेक्ता भित्र विक्री")
 {
- title=`<h4  style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
-  <p style="margin-left:65px !important;">सैनामैना-१०,रूपन्देही</p><div class="row"><div class="col-12  salespurchasebill">
+ title=`<div class="logo"><h4  class="mt-3" style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
+  <p style="margin-left:70px !important;" class="mt-1">सैनामैना-१०,रूपन्देही</p></div><div class="row"><div class="col-12  salespurchasebill">
         <label style="width:180px; visibility:hidden;">sfaG</label>
        <label class='salesdateclass text-dark ml-3 d-inline '>मिति:</label>
          <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
          <br> 
         <label style="font-size:8px;"> बिक्री प्रकार:</label>
-        <input style="font-size:8px;" type="text" value='${bikritype}' class="d-inline"><br>
+        <input style="font-size:8px;" type="text" value='${bikritype}' class="d-inline">
+         <label style="font-size:8px;">बिल नं:</label>
+        <input style="font-size:8px;" type="text" value='${billno}' class="d-inline"><br>
         <label style="font-size:8px;">उपभाेक्ता नं:</label>
         <input  style="font-size:8px;" type="text" name="userid" id="userid" value='${upavoktaid}' style="width:30px;" class=" d-inline" autofocus>         
         <label  style="font-size:8px;">नाम:</label>
@@ -170,8 +175,8 @@ if(bikritype==="उपभाेक्ता भित्र विक्री")
 else
 {
 
-  title=`<h4  style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
-  <p style="margin-left:65px !important;">सैनामैना-१०,रूपन्देही</p><div class="row"><div class="col-12  salespurchasebill">
+  title=`<div class="logo"><h4 class="mt-3" style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
+  <p class="mt-2" style="margin-left:70px !important;">सैनामैना-१०,रूपन्देही</p></div><div class="row"><div class="col-12  salespurchasebill">
         <label style="width:180px; visibility:hidden;">sfaG</label>
        <label class='salesdateclass text-dark ml-3 d-inline '>मिति:</label>
          <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
@@ -191,17 +196,49 @@ else
 
   var tabledatatest=tablerow[1].children[5].innerHTML;
   var tabledatatestvalue= $(tabledatatest).attr("id");
-  var testvalue= returnnumber($(`#${tabledatatestvalue}`).val());
+  var tableanye= $(".anyetable");
 
-  if(tablerow.length>1 && parseInt(testvalue)>0)
+  var tableanyetestvalue= $(tableanye).eq(0).find('input')[3];
+  tableanyetestvalue=$(tableanyetestvalue).attr("id");
+  alert(tableanyetestvalue);
+  tableanyetestvalue=returnnumber($(`#${tableanyetestvalue}`).val());
+
+  var testvalue= returnnumber($(`#${tabledatatestvalue}`).val());
+  // var testanyevalue=returnnumber($(`#${}`))
+  
+  if(tableanye.length>0 && tableanyetestvalue >0)
+{
+    var anyetable=`<p class="font-weight-bold">अन्य</p><table class="table w-25 anyetable text-left">
+            <tr>
+                <td>नाम</td>
+                <td>परिमाण</td>
+                <td>मूल्य</td>
+                <td>जम्मा</td>
+            </tr>`;
+            for(i=0;i<tableanye.length;i++)
+            {
+          anyetable+='<tr>';
+          for(j=0;j<4;j++)
+          {
+          tableanyetestvalue= $(tableanye).eq(i).find('input')[j];
+          tableanyetestvalue=$(tableanyetestvalue).attr("id");
+          tableanyetestvalue=$(`#${tableanyetestvalue}`).val();
+          anyetable+=`<td>${tableanyetestvalue}</td>`;
+          }
+             anyetable+=`</tr>`;
+          }
+      anyetable+=`</table>`;
+}
+
+  if(tablerow.length>1 && Number(testvalue)>0)
   {
    var kaathtable=`<p class="font-weight-bold"> काठ बिक्री</p><table class="table w-25 salestable text-left">
             <tr>
-                <th>गुल्ली नं</th>
-                <th>काठकाे नाम</th>
-                <th>परिमाण</th>
-                <th>मूल्य/Cft</th>
-                <th>जम्मा</th>
+                <td>गुल्ली नं</td>
+                <td>काठकाे नाम</td>
+                <td>परिमाण</td>
+                <td>मूल्य/Cft</td>
+                <td>जम्मा</td>
             </tr>`;
   
 
@@ -243,14 +280,14 @@ var daurarecord=[];
 
 
    var dauratable;
-   if(parseInt(returnnumber($("#amount-0").val()))>0)
+   if(Number(returnnumber($("#amount-0").val()))>0)
 {
      dauratable=`<p class="font-weight-bold"> दाउरा बिक्री</p>
            <table class="table w-25 salestable text-left">
             <tr>
-                <th>परिमाण</th>
-                <th>मूल्य/चट्टा</th>
-                <th>जम्मा</th>
+                <td>परिमाण</td>
+                <td>मूल्य/चट्टा</td>
+                <td>जम्मा</td>
             </tr>`;
 
 daurarecord=[$("#quantity-0").val(),$("#per-0").val(),$("#amount-0").val()];
@@ -264,14 +301,14 @@ else
 }
 
 var ghaastable;
- if(parseInt(returnnumber($("#ghaastotal").val()))>0)
+ if(Number(returnnumber($("#ghaastotal").val()))>0)
 {
      ghaastable=`<p class="font-weight-bold"> घास बिक्री</p>
    <table class="table w-25 salestable text-left">
             <tr>
-                <th>परिमाण</th>
-                <th>मूल्य/भारी</th>
-                <th>जम्मा</th>
+                <td>परिमाण</td>
+                <td>मूल्य/भारी</td>
+                <td>जम्मा</td>
             </tr>
             `;
 
@@ -286,12 +323,13 @@ else
   ghaastable='';
 }
 
-   
-    var totalamount=`<div class="row">
-        <div class="col-md-8 ml-5"></div>
+
+var totalamount=$("#totalamount").val();
+    var totalamountdiv=`<div class="row">
+        <div class="col-md-2 ml-5"></div>
        
-        <label class="d-inline form-control-sm  text-center">कुल रकम रू</label>
-        <input class="d-inline form-control-sm col-md-2  border-0 text-left" name="totalamount" id="totalamount" value="०">`;
+        <label class="d-inline form-control-sm  text-center">कुल रकम </label>
+        <input class="d-inline form-control-sm col-md-2  border-0 text-left" name="totalamount" id="totalamount" value="रू ${totalamount}">`;
         printContents = document.getElementsByClassName("salespurchaseform")[0].outerHTML;
         popupWin = window.open("");
         popupWin.document.open();
@@ -302,15 +340,22 @@ else
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
             </head>
             <style  >
-            body
+            body,html
             {
-            margin-top:30px;
+            margin-top:20px;
             margin-left:20px;
-            background:url("/js/forest.png") no-repeat;
-            background-size: 80px 80px;
-            background-position:70px 20px; 
-
-         
+             
+          }
+          div.logo
+          {
+            background:url("/js/forest.jpg") no-repeat;
+            top:10px;
+            position:absolute;
+            background-position:80px -2px !important;
+            background-size:50px 50px; 
+            height:55px;
+            z-index:333;
+          
           }
             html,body,table
             {
@@ -337,17 +382,14 @@ else
            
 @media print {
   body {
-    margin-top:30px;
-            margin-left:20px;
-            background:url("/js/forest.png") no-repeat;
-            background-size: 80px 80px;
-            background-position:70px 20px; 
+            
+            
           -webkit-print-color-adjust: exact;}
 }
         
 
             </style>
-        <body ">${title}${kaathtable}${dauratable}${ghaastable}</body>
+        <body ">${title}${kaathtable}${dauratable}${ghaastable}${anyetable}${totalamountdiv}</body>
 
           </html>`
         );
@@ -448,7 +490,7 @@ var ghaastotal=0;
 // var totalamount=0;
 if(targetid==='ghaas')
 {
-// var testtotal=parseInt(returnnumber($("#totalamount").val().split(' ')[1])); 
+// var testtotal=Number(returnnumber($("#totalamount").val().split(' ')[1])); 
 ghaastotal=returnnumber($(`#ghaasquantity`).val()) * returnnumber($(`#per-ghaas`).val());
 $("#ghaastotal").val(returnnepalinumber(ghaastotal));
 // testtotal=testtotal+ghaastotal;
@@ -468,18 +510,18 @@ var amountlist=$("[id^=amount");
 var totalamount=0;
 console.log(amountlist.length);
 var i;
-if(parseInt(returnnumber($("#ghaastotal").val()))>0)
+if(Number(returnnumber($("#ghaastotal").val()))>0)
 {
-  totalamount=parseInt(returnnumber($("#ghaastotal").val()));
+  totalamount=Number(returnnumber($("#ghaastotal").val()));
 }
 for(i=0;i<amountlist.length;i++)
 {
-if(parseInt(returnnumber($(`#amount-${i}`).val()))>0)
+if(Number(returnnumber($(`#amount-${i}`).val()))>0)
 {
-totalamount=totalamount+parseInt(returnnumber($(`#amount-${i}`).val()));
+totalamount=totalamount+Number(returnnumber($(`#amount-${i}`).val()));
 }
 console.log(totalamount);
-// console.log("AMout is "+parseInt(returnnumber($(`#amount-${i}`).val() )));
+// console.log("AMout is "+Number(returnnumber($(`#amount-${i}`).val() )));
 }
 console.log("Total amount is "+totalamount);
 
@@ -533,7 +575,7 @@ $.ajax({
 function createnewitem(e)
 {
   
-    var i = parseInt(e.target.id.split('-')[1])+1;
+    var i = Number(e.target.id.split('-')[1])+1;
     console.log('I is '+i);
     console.log('Pressed' + i);
     if(e.altKey && e.key === "c")

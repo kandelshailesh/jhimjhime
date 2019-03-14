@@ -206,7 +206,7 @@ app.get('/kaathdaura', function(req, res) {
             transactionno = 0;
         } else {
             for (var i = 0; i < results[1].length; i++) {
-                transactionno = parseInt(results[1][i]['transactionno']);
+                transactionno = Number(results[1][i]['transactionno']);
             }
         }
 
@@ -231,11 +231,11 @@ app.get('/ledger',function(req,res)
         {
              if(result[1].type==='k')
             {
-                totalkharcha= totalkharcha+ parseInt(result[1][i].totalamount);
+                totalkharcha= totalkharcha+ Number(result[1][i].totalamount);
             }
             else
             {
-                 totalaamdani= totalaamdani+ parseInt(result[1][i].totalamount);
+                 totalaamdani= totalaamdani+ Number(result[1][i].totalamount);
             }
 
             result[1][i].totalamount= getnepali(result[1][i].totalamount);
@@ -250,6 +250,11 @@ app.get('/ledger',function(req,res)
         res.render('pages/groupledger',{results:'',results1:'',totalkharcha:'',totalaamdani:''});
     }
     })
+})
+
+app.get('/',function(req,res)
+{
+    return res.redirect('/pay');
 })
 app.get('/ghumtikoshsearch', function(req, res) {
     res.render('pages/ghumtikoshsearch');
@@ -549,7 +554,7 @@ app.post('/edit/paymentsubmit/:id', function(req, res) {
             if (err) throw err;
             // console.log("Number of records inserted: " + result.affectedRows);
             console.log(result);
-            // res.json({'transactionno':parseInt(transactionno)+1});
+            // res.json({'transactionno':Number(transactionno)+1});
         });
         var insert2 = "INSERT INTO paymentdetails(transactionno,narration,paymentdate,vouchertype,voucherno) VALUES ? ";
         con.query(insert2, [
@@ -559,7 +564,7 @@ app.post('/edit/paymentsubmit/:id', function(req, res) {
             if (err) console.log(err);
             // console.log("Number of records inserted: " + result.affectedRows);
             console.log(result);
-            res.json({ 'transactionno': parseInt(transactionno) + 1 });
+            res.json({ 'transactionno': Number(transactionno) + 1 });
         });
     }
 })
@@ -672,7 +677,7 @@ app.post('/pay/:id', function(req, res) {
                 transactionno = 0;
             } else {
                 for (var i = 0; i < results[1].length; i++) {
-                    transactionno = parseInt(results[1][i]['transactionno']);
+                    transactionno = Number(results[1][i]['transactionno']);
                 }
             }
 
@@ -718,7 +723,7 @@ app.post('/pay/:id', function(req, res) {
                 if (length === 1) {
                     data.push(getenglish(a['gullino']), a['kaathname'], a['collectiontype'], a['unit'], a['quantity']);
                     data1.push(collectiontype(a['collectiontype']));
-                    data2.push(parseInt(a['quantity']));
+                    data2.push(Number(a['quantity']));
                     data3.push(a['kaathname']);
                     // data4.push(a['grade']);
 
@@ -726,7 +731,7 @@ app.post('/pay/:id', function(req, res) {
                     for (i = 0; i < length; i++) {
                         data.push([getenglish(a['gullino'][i]), a['kaathname'][i], a['collectiontype'][i], a['unit'][i], a['quantity'][i]]);
                         data1.push(collectiontype(a['collectiontype'][i]));
-                        data2.push(parseInt(a['quantity'][i]));
+                        data2.push(Number(a['quantity'][i]));
                         data3.push(a['kaathname'][i]);
                         // data4.push(a['grade'][i]);
 
@@ -798,17 +803,19 @@ app.post('/pay/:id', function(req, res) {
                 data4 = [];
                 // var length=a['gullino'].length;
                 var testgullino= [req.body.gullino];
+                var testanye=[req.body.anyename];
+                var length1= testanye[0].length;
                 console.log("Rest"+testgullino);
                 var length= testgullino[0].length;
                 console.log("Length is "+length);
                 var data = [];
                 console.log("A is " + a);
-                var kaathbikridetailsrecord = [a['bikritypes'],getenglish(a['userid']),a['accountname'],getenglish(a['totalamount']), a['salesdate']];
+                var kaathbikridetailsrecord = [a['bikritypes'],getenglish(a['userid']),a['accountname'],getenglish(a['totalamount']), a['salesdate'],a['billno']];
                 // if (length===1) {
                 //     if (a['gullino'] !== '') {
                 //         data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount'])]);
                 //         data1.push(collectiontype(a['bikritypes']));
-                //         data2.push(parseInt(getenglish(a['quantity'])));
+                //         data2.push(Number(getenglish(a['quantity'])));
                 //         data3.push(a['kaathname']);
                 //         // data4.push(a['kaathgrade']);
                 //     }
@@ -819,7 +826,7 @@ app.post('/pay/:id', function(req, res) {
                 //         }
                 //         data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i])]);
                 //         data1.push(collectiontype(a['bikritypes']));
-                //         data2.push(parseInt(getenglish(a['quantity'][i])));
+                //         data2.push(Number(getenglish(a['quantity'][i])));
                 //         data3.push(a['kaathname'][i]);
                 //         // data4.push(a['kaathgrade'][i]);
                 //     }
@@ -829,14 +836,24 @@ app.post('/pay/:id', function(req, res) {
 
                 var ghaasbikri="INSERT INTO `ghaasbikri`(`ghaas`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";
                 var daurabikri="INSERT INTO `daurabikri`(`daura`, `quantity`, `per`, `amount`, `bikriid`) VALUES ?";
+                var anyebikri="INSERT INTO anyebikri(name,quantity,per,amount,bikriid) values ?";
                 var dataghaas=[];
                 var datadaura=[];
-               
+
+                var dataanye=[];
+
+                for(i=0;i<length1;i++)
+                {
+                    if(Number(getenglish(a['anyetotal'][i]))>0)
+                    dataanye.push(a['anyename'][i],a['anyequantity'][i],a['anyeper'][i],a['anyetotal'][i],a['billno']);
+                }
+
+                console.log("Dataanye is"+dataanye )
                 //   console.log("titleformdata"+titleformdata);
                 var lastid;
                 var selectlastid= "select * from kaathbikridetails ORDER by id desc";
                 var insertintokaathbikri= "INSERT INTO `kaathbikri`(`gullino`, `kaathname`, `unit`, `quantity`, `price`,`bikriid`) VALUES ?";
-                var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`customerid`,`personname`, `total`, `salesdate`) values ?";
+                var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`customerid`,`personname`, `total`, `salesdate`,`billno`) values ?";
                 con.query(insert1, [[kaathbikridetailsrecord]], function(err, result) {
                     // console.log([paymentdata]);
                     if (err) console.log(err);
@@ -859,9 +876,9 @@ app.post('/pay/:id', function(req, res) {
                     console.log("Lastid is "+ lastid);
                     if (length===1) {
                     if (a['gullino'] !== '') {
-                        data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount']),lastid]);
+                        data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount']),a['billno']]);
                         data1.push(collectiontype(a['bikritypes']));
-                        data2.push(parseInt(getenglish(a['quantity'])));
+                        data2.push(Number(getenglish(a['quantity'])));
                         data3.push(a['kaathname']);
                         // data4.push(a['kaathgrade']);
                     }
@@ -870,32 +887,34 @@ app.post('/pay/:id', function(req, res) {
                         if (a['gullino'][i] === '') {
                             break loop1;
                         }
-                        data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),lastid]);
+                        // data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),lastid]);
+                        data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),a['billno']]);
                         data1.push(collectiontype(a['bikritypes']));
-                        data2.push(parseInt(getenglish(a['quantity'][i])));
+                        data2.push(Number(getenglish(a['quantity'][i])));
                         data3.push(a['kaathname'][i]);
                         // data4.push(a['kaathgrade'][i]);
                     }
                 }
                 var ghaastotal=getenglish(a['ghaastotal']);
                 var dauratotal=getenglish(a['daauratotal']);
+
                 console.log("ghaastotal IS "+ghaastotal);
                 console.log("dauratotal IS "+dauratotal);
 
-                 if(parseInt(ghaastotal)>0)
+                 if(Number(ghaastotal)>0)
                 {
                     console.log("Ghaas total");
-                    dataghaas.push(['घाँस',getenglish(a['ghaasquantity']),getenglish(a['ghaasper']),getenglish(a['ghaastotal']),lastid]);
+                    dataghaas.push(['घाँस',getenglish(a['ghaasquantity']),getenglish(a['ghaasper']),getenglish(a['ghaastotal']),a['billno']]);
                      con.query(ghaasbikri,[dataghaas],function(err,result3)
                     {
                         if(err) console.log(err);
 
                     })
                 }
-                if(parseInt(dauratotal)>0)
+                if(Number(dauratotal)>0)
                 {
                     console.log("Daura total");
-                    datadaura.push(['दाउरा',getenglish(a['daauraquantity']),getenglish(a['daauraper']),getenglish(a['daauratotal']),lastid])
+                    datadaura.push(['दाउरा',getenglish(a['daauraquantity']),getenglish(a['daauraper']),getenglish(a['daauratotal']),a['billno']])
                     con.query(daurabikri,[datadaura],function(err,result3)
                     {
                         if(err) console.log(err);
@@ -947,7 +966,7 @@ app.post('/pay/:id', function(req, res) {
                 //     if (a['gullino'] !== '') {
                 //         data.push([getenglish(a['gullino']), a['kaathname'], getenglish(a['quantity']),getenglish(a['per']),getenglish(a['amount']),lastid]);
                 //         data1.push(collectiontype(a['bikritypes']));
-                //         data2.push(parseInt(getenglish(a['quantity'])));
+                //         data2.push(Number(getenglish(a['quantity'])));
                 //         data3.push(a['kaathname']);
                 //         // data4.push(a['kaathgrade']);
                 //     }
@@ -958,7 +977,7 @@ app.post('/pay/:id', function(req, res) {
                 //         }
                 //         data.push([getenglish(a['gullino'][i]), a['kaathname'][i],getenglish(a['quantity'][i]),getenglish(a['per'][i]),getenglish(a['amount'][i]),lastid]);
                 //         data1.push(collectiontype(a['bikritypes']));
-                //         data2.push(parseInt(getenglish(a['quantity'][i])));
+                //         data2.push(Number(getenglish(a['quantity'][i])));
                 //         data3.push(a['kaathname'][i]);
                 //         // data4.push(a['kaathgrade'][i]);
                 //     }
@@ -1148,7 +1167,7 @@ app.post('/padhadhikaarisubmit', function(req, res) {
 app.post('/padhadhikaarikhoj', function(req, res) {
 
     var samitino = req.body.samitino;
-    var samitinonext = getnepali(parseInt(getenglish(req.body.samitino)) + 1);
+    var samitinonext = getnepali(Number(getenglish(req.body.samitino)) + 1);
     var enddate = '-------';
 
     console.log(samitino);
@@ -1226,7 +1245,7 @@ app.get('/pay', function(req, res) {
         //     transactionno = 0;
         // } else {
         //     for (var i = 0; i < results[1].length; i++) {
-        //         transactionno = parseInt(results[1][i]['transactionno']);
+        //         transactionno = Number(results[1][i]['transactionno']);
         //     }
         // }
         transactionno=1;
@@ -1252,7 +1271,7 @@ app.get('/payment', function(req, res) {
             transactionno = 0;
         } else {
             for (var i = 0; i < results[1].length; i++) {
-                transactionno = parseInt(results[1][i]['transactionno']);
+                transactionno = Number(results[1][i]['transactionno']);
             }
         }
 
@@ -1396,7 +1415,7 @@ app.post('/daybookreturn', (req, res) => {
         console.log(err);
         if (results.length > 0) {
             for (i = 0; i < results.length; i++) {
-                total = total + parseInt(results[i].dcamount);
+                total = total + Number(results[i].dcamount);
                 console.log(total);
                 results[i].dcamount = getnepali(results[i].dcamount)
             }
@@ -1822,7 +1841,7 @@ app.post('/paymentsubmit',function(req, res) {
     // var paymentdatadetails = req.body.paymentdetails;
 
     console.log(paymentdata);
-    paymentdata[3]=parseInt(getenglish(paymentdata[3]));
+    paymentdata[3]=Number(getenglish(paymentdata[3]));
     console.log(paymentdata);
 
     // paymentdata=paymentdata[0];
@@ -1862,7 +1881,7 @@ app.post('/paymentsubmit',function(req, res) {
         console.log(result);
         console.log("He");
 
-        res.json({'transactionno':parseInt(transactionno)+1});
+        res.json({'transactionno':Number(transactionno)+1});
     });
      // return res.redirect('/pay');
     
