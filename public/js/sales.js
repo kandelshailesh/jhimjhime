@@ -488,6 +488,33 @@ var value= returnnumber(event.target.value);
 console.log(value);
 var ghaastotal=0;
 // var totalamount=0;
+var tableanye= $(".anyetable");
+var dataanye=[];
+var totalamount=0;
+for(i=0;i<tableanye.length;i++)
+{     
+
+tableanyetestvalue= $(tableanye).eq(i).find('input')[1];
+tableanyetestvalue=$(tableanyetestvalue).attr("id");
+tableanyetestvalue=$(`#${tableanyetestvalue}`).val();
+tableanyetestvalue1= $(tableanye).eq(i).find('input')[2];
+tableanyetestvalue1=$(tableanyetestvalue1).attr("id");
+tableanyetestvalue1=$(`#${tableanyetestvalue1}`).val();
+console.log("quantity is"+tableanyetestvalue);
+console.log("per is"+tableanyetestvalue1);
+
+if(Number(returnnumber(tableanyetestvalue))>0 && Number(returnnumber(tableanyetestvalue1))>0)
+{
+  console.log("entered");
+$(`#anyetotal-${i+1}`).val(returnnepalinumber(returnnumber(tableanyetestvalue)*returnnumber(tableanyetestvalue1)));
+totalamount=totalamount+Number(returnnumber($(`#anyetotal-${i+1}`).val()));
+}
+
+}
+
+      
+
+
 if(targetid==='ghaas')
 {
 // var testtotal=Number(returnnumber($("#totalamount").val().split(' ')[1])); 
@@ -496,7 +523,7 @@ $("#ghaastotal").val(returnnepalinumber(ghaastotal));
 // testtotal=testtotal+ghaastotal;
 // $("#totalamount").val(`${returnnepalinumber(ghaastotal)}`);
 }
-if(value>0 && targetid!=='ghaas' )
+if(value>0 && targetid!=='ghaas' && targetid!=='anye'  )
 {
 
 var amountinnepali=returnnumber($(`#quantity-${targetid}`).val()) * returnnumber($(`#per-${targetid}`).val());
@@ -507,7 +534,7 @@ console.log(amountinnepali);
 $(`#amount-${targetid}`).val(amountinnepali);
 }
 var amountlist=$("[id^=amount");
-var totalamount=0;
+// var totalamount=0;
 console.log(amountlist.length);
 var i;
 if(Number(returnnumber($("#ghaastotal").val()))>0)

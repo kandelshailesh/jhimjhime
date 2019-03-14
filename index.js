@@ -97,16 +97,16 @@ var con = mysql.createConnection({
     user: "root",
     password: "",
     port: 3308,
-    database: 'jhimjhime',
+    database: 'buddhasaba',
     multipleStatements: true
 });
-var newcon = {
-    host: "localhost",
-    user: "root",
-    password: "",
-    port: 3308,
-    database: 'jhimjhime'
-}
+// var newcon = {
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     port: 3308,
+//     database: 'jhimjhime'
+// }
 var path = require('path')
 con.connect(function(err) {
     if (err) throw err;
@@ -114,8 +114,8 @@ con.connect(function(err) {
 });
 
 
-mysqleventwatcher = MySQLEvents(newcon);
-console.log(mysqleventwatcher);
+// mysqleventwatcher = MySQLEvents(newcon);
+// console.log(mysqleventwatcher);
 
 
 const app = express();
@@ -170,7 +170,14 @@ app.get('/kaathdaurastatus', function(req, res) {
     con.query(kaathdauradata, function(err, results, fields) {
         if (err) console.log(err)
         console.log(results[0]);
+    for(i=0;i<results[0].length;i++)
+    {
+        results[0][i].gullino=getnepali(results[0][i].gullino);
+        results[0][i].quantity=getnepali(results[0][i].quantity);
+    }
+
         res.render('pages/kaathdaurastatus', { 'results': results[0],'results1':results[1],'error': {} });
+  
     })
 })
 app.post('/ghumtikoshadddata', function(req, res) {
@@ -739,6 +746,8 @@ app.post('/pay/:id', function(req, res) {
                 }
                 console.log("Data is " + data)
                 console.log("Data1 is" + data1)
+                console.log("Length1 is" + length1)
+
 
 
                 //   console.log("titleformdata"+titleformdata);
@@ -804,10 +813,12 @@ app.post('/pay/:id', function(req, res) {
                 // var length=a['gullino'].length;
                 var testgullino= [req.body.gullino];
                 var testanye=[req.body.anyename];
-                var length1= testanye[0].length;
+                var length1= testanye.length;
                 console.log("Rest"+testgullino);
-                var length= testgullino[0].length;
+                var length= testgullino.length;
                 console.log("Length is "+length);
+                console.log("Length1 is "+length1);
+
                 var data = [];
                 console.log("A is " + a);
                 var kaathbikridetailsrecord = [a['bikritypes'],getenglish(a['userid']),a['accountname'],getenglish(a['totalamount']), a['salesdate'],a['billno']];
@@ -841,12 +852,20 @@ app.post('/pay/:id', function(req, res) {
                 var datadaura=[];
 
                 var dataanye=[];
-
+                if(length1===1)
+                {
+                dataanye.push(a['anyename'],getenglish(a['anyequantity']),getenglish(a['anyeper']),getenglish(a['anyetotal']),a['billno']);
+                }
+                else if(length1>1)
+                {
                 for(i=0;i<length1;i++)
                 {
                     if(Number(getenglish(a['anyetotal'][i]))>0)
-                    dataanye.push(a['anyename'][i],a['anyequantity'][i],a['anyeper'][i],a['anyetotal'][i],a['billno']);
+                    {
+                    dataanye.push(a['anyename'][i],getenglish(a['anyequantity'][i]),getenglish(a['anyeper'][i]),getenglish(a['anyetotal'][i]),a['billno']);
                 }
+                }
+            }
 
                 console.log("Dataanye is"+dataanye )
                 //   console.log("titleformdata"+titleformdata);
@@ -901,6 +920,15 @@ app.post('/pay/:id', function(req, res) {
                 console.log("ghaastotal IS "+ghaastotal);
                 console.log("dauratotal IS "+dauratotal);
 
+                 if(Number(getenglish(a['anyetotal'][0]))>0)
+                 {
+                      console.log("Anye total");
+                     con.query(anyebikri,[[dataanye]],function(err,result3)
+                    {
+                        if(err) console.log(err);
+
+                    })
+                 }
                  if(Number(ghaastotal)>0)
                 {
                     console.log("Ghaas total");
