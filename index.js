@@ -730,7 +730,7 @@ app.post('/pay/:id', function(req, res) {
                 if (length === 1) {
                     data.push(getenglish(a['gullino']), a['kaathname'], a['collectiontype'], a['unit'],getenglish(a['quantity']));
                     data1.push(collectiontype(a['collectiontype']));
-                    data2.push(Number(a['quantity']));
+                    data2.push(Number(getenglish(a['quantity'])));
                     data3.push(a['kaathname']);
                     // data4.push(a['grade']);
 
