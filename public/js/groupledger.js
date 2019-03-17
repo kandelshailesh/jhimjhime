@@ -1,3 +1,6 @@
+
+
+
 function displaydata(value)
 {
 var titlename=value;
@@ -27,18 +30,30 @@ $.ajax({
 
 		}
 		$('table.subtitletable').append(`<tr class="row m-0"><td class="col-md-6">जम्मा</td><td class="col-md-6">${data.total}</td></tr></table></div>`)
-		var monthlist= {"4":"साउन","5":"भदौ","6":"असोज","7":"कार्तिक","8":"मंसिर","9":"पौष","10":"माघ", "11":"फागुन","12":"चैत","1":"बैशाख","2":"जेठ","3":"असार"};
+
+
+		var monthlistreverse={"असार": 3,"असोज": 6,"कार्तिक": 7,"चैत": 12,"जेठ": 2,"पौष": 9,"फागुन": 11,"बैशाख": 1,"भदौ": 5,"मंसिर": 8,"माघ": 10,"साउन": 4}
+		
+
+		var monthlist=["साउन", "भदौ", "असोज", "कार्तिक", "मंसिर", "पौष", "माघ", "फागुन", "चैत","बैशाख", "जेठ", "असार"];
+		// var monthlist= {"4":"साउन","5":"भदौ","6":"असोज","7":"कार्तिक","8":"मंसिर","9":"पौष","10":"माघ", "11":"फागुन","12":"चैत","1":"बैशाख","2":"जेठ","3":"असार"};
 		var appenddata='';
-		for(let count in monthlist)
+		for(i=0;i<monthlist.length;i++)
 		{
-			console.log(count);
-			appenddata+=`<a style="border:1px solid black; font-size:12px;" onclick="javascript:monthlydata(${count},'${titlename}')"  class="nav-link">${monthlist[count]}</a>`;
+			// console.log(count);
+		if(i<9)
+		{
+		appenddata+=`<a style="border:1px solid black; font-size:12px;" onclick="javascript:monthlydata('${monthlistreverse[monthlist[i]]}','${titlename}',${initialdate})"  class="nav-link">${monthlist[i]}</a>`;
 		}
+		else
+		{
+				appenddata+=`<a style="border:1px solid black; font-size:12px;" onclick="javascript:monthlydata('${monthlistreverse[monthlist[i]]}','${titlename}',${finaldate})"  class="nav-link">${monthlist[i]}</a>`;
+		}
+	}
 		$('div.totaldc').append(appenddata);
 
-}
-else
-{
+
+}else{
 	$('div#displayledger').append(`<p class="text-center">डाटा उपलब्ध भएन</p>`);	
 	}
 
@@ -76,7 +91,7 @@ function monthlydata(count,titlename)
 
 		for(i=0;i<data.result.length;i++)
 		{
-			$('table.subtitletable').append(`<tr class="m-0 row"><td class="col-md-6">${data.result[i].account}</td><td class="col-md-6">${data.result[i].totalamount}</td></tr>`);
+			$('table.subtitletable').append(`<tr class="m-0 row"><td class="col-md-6">${data.result[i].subaccount}</td><td class="col-md-6">${data.result[i].totalamount}</td></tr>`);
 		}
 		$('table.subtitletable').append(`<tr class="m-0 row"><td class="col-md-6">जम्मा</td><td class="col-md-6">${data.total}</td></tr></table></div>`);
 	}
@@ -98,3 +113,7 @@ function monthlydata(count,titlename)
 	}
 })
 }
+
+
+$('#ledgerinitialdate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'})
+$('#ledgerfinaldate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'})

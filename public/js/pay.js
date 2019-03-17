@@ -1,14 +1,5 @@
 
-function printbill(event)
-{
-event.preventDefault();
-   var printdata= $("div.salespurchaseform");
-   newWin= window.open("");
-   newWin.document.write(printdata.outerHTML);
-   newWin.print();
-   newWin.close();
 
-}
 
 function submittitles(e)
 {

@@ -12,7 +12,7 @@
     </header>
         <div class="row  ">
         	<div class="col-12 m-0">
-            <h2 class="text-center mt-2">सालकाठ/दाउरा/घाँस बिक्री </h2>
+            <h2 class="text-center mt-2">सालकाठ/दाउरा/घाँस/अन्य बिक्री </h2>
             <form class="daybookform" action="/banpaidawar" method="post" >
                 <div class="row">
                     <div class="col-12 mt-3 text-center">
@@ -29,6 +29,7 @@
            <div class="col-3"></div>
            <div class="col-6 mt-3 text-center">
       <% if(status===1) { %>
+      <label class="text-center"> <%= initialdate %> देखि <%= finaldate %> </label>
             <table class="w-100 table-bordered">
             	<tr>
             		<th>नाम</th>
@@ -49,6 +50,12 @@
             		<% result2.forEach(function(result){ %>
             		<tr>
             			<td><%= result.ghaas %></td>
+            			<td><%= result.price %></td>
+            		</tr>
+            		<% }) %>
+            		<% result3.forEach(function(result){ %>
+            		<tr>
+            			<td><%= result.name %></td>
             			<td><%= result.price %></td>
             		</tr>
             		<% }) %>

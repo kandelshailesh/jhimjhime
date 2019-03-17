@@ -22,7 +22,17 @@ a:active
     <% include ../partials/header %>
 </header>
 
-
+<% if(status===1){ %>
+<div class="row text-center mt-3">
+	<div class="col-12">
+<form method="post" action='/ledger'>
+<p> आर्थिक वर्ष</p>
+<input id="ledgerinitialdate" autocomplete="off" name="ledgerinitialdate" class="text-center" placeholder="सुरू मिति" style="height: 35px;" >
+<input id="ledgerfinaldate" autocomplete="off" name="ledgerfinaldate" class="text-center" placeholder="अन्तिम मिति" style="height: 35px;" >
+<button type="submit" class="btn  btn-outline-primary">खोज</button>
+</form>
+</div>
+</div>
 <div class="row mt-4 appendresult">
             <div class="col-md-2">
                 <% include ../partials/groupledger %>
@@ -43,7 +53,7 @@ a:active
 		<td class="col-md-4">खर्च</td>
 
 		<% } else { %>
-		<td class="col-md-4">अाम्दानी</td>
+		<td class="col-md-4">आम्दानी</td>
 		<% } %>
 		<td class="col-md-4"><%= result.totalamount %> </td>
 	</tr>
@@ -65,6 +75,22 @@ a:active
 </div>
 </div>
 </div>
+<% } else { %>
+<div class="row text-center mt-3">
+	<div class="col-12">
+<form method="post" action='/ledger'>
+<p> आर्थिक वर्ष</p>
+<input id="ledgerinitialdate" autocomplete="off" name="ledgerinitialdate" class="text-center" placeholder="सुरू मिति" style="height: 35px;" >
+<input id="ledgerfinaldate" autocomplete="off" name="ledgerfinaldate" class="text-center" placeholder="अन्तिम मिति" style="height: 35px;" >
+<button type="submit" class="btn  btn-outline-primary">खोज</button>
+</form>
+</div>
+</div>
+<% } %>
+<script>
+var initialdate=<%= initialdate %>;
+var finaldate=<%= finaldate %>;
+</script>
 <script src="../js/groupledger.js"></script>
 </body>
 </html>

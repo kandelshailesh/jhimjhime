@@ -508,6 +508,7 @@ if(Number(returnnumber(tableanyetestvalue))>0 && Number(returnnumber(tableanyete
   console.log("entered");
 $(`#anyetotal-${i+1}`).val(returnnepalinumber(returnnumber(tableanyetestvalue)*returnnumber(tableanyetestvalue1)));
 totalamount=totalamount+Number(returnnumber($(`#anyetotal-${i+1}`).val()));
+console.log("FROM anye total"+totalamount);
 }
 
 }
@@ -539,7 +540,7 @@ console.log(amountlist.length);
 var i;
 if(Number(returnnumber($("#ghaastotal").val()))>0)
 {
-  totalamount=Number(returnnumber($("#ghaastotal").val()));
+  totalamount=totalamount+Number(returnnumber($("#ghaastotal").val()));
 }
 for(i=0;i<amountlist.length;i++)
 {
