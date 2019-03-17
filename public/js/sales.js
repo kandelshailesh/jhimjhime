@@ -205,10 +205,10 @@ else
 
   var testvalue= returnnumber($(`#${tabledatatestvalue}`).val());
   // var testanyevalue=returnnumber($(`#${}`))
-  
+   var anyetable='';
   if(tableanye.length>0 && tableanyetestvalue >0)
 {
-    var anyetable=`<p class="font-weight-bold">अन्य</p><table class="table w-25 anyetable text-left">
+    anyetable=`<p class="font-weight-bold">अन्य</p><table class="table w-25 anyetable text-left">
             <tr>
                 <td>नाम</td>
                 <td>परिमाण</td>
@@ -229,10 +229,10 @@ else
           }
       anyetable+=`</table>`;
 }
-
+var kaathtable='';
   if(tablerow.length>1 && Number(testvalue)>0)
   {
-   var kaathtable=`<p class="font-weight-bold"> काठ बिक्री</p><table class="table w-25 salestable text-left">
+   kaathtable=`<p class="font-weight-bold"> काठ बिक्री</p><table class="table w-25 salestable text-left">
             <tr>
                 <td>गुल्ली नं</td>
                 <td>काठकाे नाम</td>
