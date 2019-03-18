@@ -175,6 +175,7 @@ $('.padhadhikaariaddform').on('submit',function(e)
 	if($(padhadhikaariname).eq(i).val()!=='' && $(post).eq(i).val()!=='' && $(samiti).eq(i).val()!==''&& startdate!=='')
 	{
 	console.log("NOt");
+	alert("डाटा राम्रो सँग हान्नुहोस");
 }
 else
 {
@@ -195,7 +196,7 @@ $.ajax({
 		console.log(data.result);
 		console.log("Submitted");
 
-		$('#resetuserform').click();
+		$('#resetpadhadhikaariaddform').click();
 			$('.extraadded').remove();
 		// $(".billprint").printArea({ mode: 'popup', popClose: true });
 
