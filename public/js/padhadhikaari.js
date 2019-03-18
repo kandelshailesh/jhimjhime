@@ -175,10 +175,11 @@ $('.padhadhikaariaddform').on('submit',function(e)
 	if($(padhadhikaariname).eq(i).val()!=='' && $(post).eq(i).val()!=='' && $(samiti).eq(i).val()!==''&& startdate!=='')
 	{
 	console.log("NOt");
-	alert("डाटा राम्रो सँग हान्नुहोस");
 }
 else
 {
+	alert("डाटा राम्रो सँग हान्नुहोस");
+
 	return false;
 }
 }
