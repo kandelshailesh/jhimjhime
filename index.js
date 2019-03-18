@@ -1380,6 +1380,7 @@ app.post('/padhadhikaarisubmit', function(req, res) {
         // console.log([paymentdata]);
         if (err) throw err;
         console.log("Submitted");
+        res.json('result':result)
         // console.log("Number of records inserted: " + result.affectedRows);
         // res.json({'result':'Submitted'});
     });
