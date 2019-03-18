@@ -436,7 +436,7 @@ if(err)
 }
 else{
     res.json({'success':'शीर्षक राख्यो'})
-    open("http:localhost:3000/pay")
+    // open("http:localhost:3000/pay")
 }
 })
 })

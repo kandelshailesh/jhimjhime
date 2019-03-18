@@ -114,7 +114,13 @@ $('table tr td input').attr('list','kharcha');
             },
             success: function(data) {
                 console.log(data);
-                window.location.href="http://localhost:3000/pay";
+                // For localhost 
+                 // window.location.href="http://localhost:3000/pay";
+
+                //  For server
+                 window.location.href="http://buddha.ansunepal.com/pay";
+
+
                 // $('button#resetpayment').click();
                 // $('.paymenttable').not([id^=dctype]).attr('disabled','disabled');     
             }
