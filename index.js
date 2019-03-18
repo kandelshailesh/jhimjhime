@@ -92,22 +92,22 @@ var deferred = require('deferred');
 // var reload = require('reload');
 var nepali = require('get-nepali-number');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "buddha",
-    password: "Sha677@#",
-    database: 'buddhasaba',
-    multipleStatements: true
-});
-
 // var con = mysql.createConnection({
 //     host: "localhost",
-//     user: "root",
-//     password: "",
-//     port: 3308,
+//     user: "buddha",
+//     password: "Sha677@#",
 //     database: 'buddhasaba',
 //     multipleStatements: true
 // });
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    port: 3308,
+    database: 'buddhasaba',
+    multipleStatements: true
+});
 // var newcon = {
 //     host: "localhost",
 //     user: "root",
@@ -874,18 +874,7 @@ app.post('/pay/:id', function(req, res) {
                 // var length=a['gullino'].length;
                 var length=0;
                 var length1=0;
-
-var regex = /^[0-9]{4}[\-][0-9]{2}[\-][0-9]{2}$/g;
-
-if(regex.match(req.body.salesdate))
-{
-                var testgullino= [req.body.gullino];
-                var testanye=[req.body.anyename];
-                // var length1= testanye.length;
-                console.log("Rest"+testgullino);
-                // if(testgullino)
-                var i;
-                    for(i in testgullino)
+                for(i in testgullino)
                     {
                         if(testgullino[i].length>0)
                         {
@@ -901,6 +890,18 @@ if(regex.match(req.body.salesdate))
                     length1=length1+1;
                         }
                     }
+
+var regex = /^[0-9]{4}[\-][0-9]{2}[\-][0-9]{2}$/g;
+
+if(regex.test(req.body.salesdate) && (length>0 || length1>0))
+{
+                var testgullino= [req.body.gullino];
+                var testanye=[req.body.anyename];
+                // var length1= testanye.length;
+                console.log("Rest"+testgullino);
+                // if(testgullino)
+                var i;
+                    
 
                 // var length= testgullino.length;
                 console.log("Length is "+length);
