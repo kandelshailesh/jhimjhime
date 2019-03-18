@@ -99,6 +99,7 @@ var con = mysql.createConnection({
     database: 'buddhasaba',
     multipleStatements: true
 });
+
 // var con = mysql.createConnection({
 //     host: "localhost",
 //     user: "root",
@@ -114,9 +115,18 @@ var con = mysql.createConnection({
 //     port: 3308,
 //     database: 'jhimjhime'
 // }
+//  var con1 = mysql.createConnection({
+//     host: "localhost",
+//     user: "buddha",
+//     password: "Sha677@#",
+//     database: 'buddhasaba',
+//     multipleStatements: true
+// });
 var path = require('path')
 con.connect(function(err) {
-    if (err) throw err;
+    // if (err) throw err;
+    // con1.connect();
+
     console.log("Connected!");
 });
 
@@ -212,18 +222,18 @@ app.get('/kaathdaura', function(req, res) {
     con.query(accountquery, function(err, results, fields) {
         // console.log(results[0]);
         // console.log(results[1]);
-
+        var transactionno;
         // console.log(result.length);
         // if (err) throw err;
         // console.log(result[0].accountname);
         // console.log("Number of records inserted: " + result.affectedRows);
-        if (results[1].length === 0) {
-            transactionno = 0;
-        } else {
-            for (var i = 0; i < results[1].length; i++) {
-                transactionno = Number(results[1][i]['transactionno']);
-            }
-        }
+        // if (results[1].length === 0) {
+        //     transactionno = 0;
+        // } else {
+        //     for (var i = 0; i < results[1].length; i++) {
+        //         transactionno = Number(results[1][i]['transactionno']);
+        //     }
+        // }
 
         console.log(transactionno);
         res.render('pages/kaathdaura', { error: '', results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3] });
@@ -323,7 +333,8 @@ app.get('/jeansisamansearch', function(req, res) {
 
 app.post('/getdetailtitle',function(req,res){
 var total=0;
-var getdetailtitle="SELECT sum(pt.dcamount) as totalamount,pt.account from paymenttable as pt inner join accountinformation as ai on pt.account=ai.accountname inner join kagroups as kag on ai.title=kag.id where kag.katitle=? group by account";
+// var getdetailtitle="SELECT sum(pt.dcamount) as totalamount,pt.account from paymenttable as pt inner join accountinformation as ai on pt.account=ai.accountname inner join kagroups as kag on ai.title=kag.id where kag.katitle=? group by account";
+var getdetailtitle="SELECT sum(pd.amount) as totalamount,pd.subaccount from paymentdetails as pd inner join accountinformation as ai on pd.subaccount=ai.accountname inner join kagroups as kag on ai.title=kag.id where kag.katitle=? group by subaccount";
 con.query(getdetailtitle,[req.body.titlename],function(err,result,fields)
 {
     for(i=0;i<result.length;i++)
@@ -796,7 +807,7 @@ app.post('/pay/:id', function(req, res) {
                 }
                 console.log("Data is " + data)
                 console.log("Data1 is" + data1)
-                console.log("Length1 is" + length1)
+                console.log("Length1 is" + length)
 
 
 
@@ -862,12 +873,18 @@ app.post('/pay/:id', function(req, res) {
                 data4 = [];
                 // var length=a['gullino'].length;
                 var length=0;
+                var length1=0;
 
+var regex = /^[0-9]{4}[\-][0-9]{2}[\-][0-9]{2}$/g;
+
+if(regex.match(req.body.salesdate))
+{
                 var testgullino= [req.body.gullino];
                 var testanye=[req.body.anyename];
                 // var length1= testanye.length;
                 console.log("Rest"+testgullino);
                 // if(testgullino)
+                var i;
                     for(i in testgullino)
                     {
                         if(testgullino[i].length>0)
@@ -875,7 +892,8 @@ app.post('/pay/:id', function(req, res) {
                     length=length+1;
                         }
                     }
-
+                    var length1;
+                    i=0;
                     for(i in testanye)
                     {
                         if(testanye[i].length>0)
@@ -955,7 +973,7 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                 var paymentdetailskaath=[];
 
                 var checklist=[];
-                var paymentfromkaath="INSERT INTO `paymentdetails`( `type`, `subaccount`, `amount`,`paymentdate`) VALUES ?";
+                var paymentfromkaath="INSERT INTO `paymentdetails`( `type`, `subaccount`, `amount`,`paymentdate`) VALUES (?)";
                 // var paymentdaura=[];
                 // var paymentghaas=[];
                 // var paymentanye=[];
@@ -966,6 +984,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                       console.log("banpaidawarid from anye is"+banpaidawarid);
 
                 checklist.push([a['anyename']+' '+'बिक्री',banpaidawarid]);
+                console.log("paymentdetailskaath from anye is"+paymentdetailskaath);
+
                 }
                 else if(length1>1)
                 {
@@ -977,6 +997,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                     paymentdetailskaath.push(['आम्दानी',a['anyename'][i]+' '+'बिक्री',getenglish(a['anyetotal'][i]),a['salesdate']])
                 checklist.push([a['anyename'][i]+' '+'बिक्री',banpaidawarid]);
                 console.log("banpaidawarid from anye is"+banpaidawarid);
+                console.log("paymentdetailskaath from anye is"+paymentdetailskaath);
+
 
                 }
                 }
@@ -1018,6 +1040,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                         data1.push(collectiontype(a['bikritypes']));
                         data2.push(Number(getenglish(a['quantity'])));
                         data3.push(a['kaathname']);
+                console.log("paymentdetailskaath from gullino is"+paymentdetailskaath);
+
                         // data4.push(a['kaathgrade']);
                     }
                 } else if(length>1) {
@@ -1033,6 +1057,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                         data1.push(collectiontype(a['bikritypes']));
                         data2.push(Number(getenglish(a['quantity'][i])));
                         data3.push(a['kaathname'][i]);
+                console.log("paymentdetailskaath from gullino is"+paymentdetailskaath);
+
                         // data4.push(a['kaathgrade'][i]);
                     }
                 }
@@ -1045,6 +1071,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                  if(Number(getenglish(a['anyetotal'][0]))>0)
                  {
                       console.log("Anye total");
+                console.log("paymentdetailskaath from anyetotal is"+paymentdetailskaath);
+
                      con.query(anyebikri,[[dataanye]],function(err,result3)
                     {
                         if(err) console.log(err);
@@ -1057,6 +1085,7 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                     dataghaas.push(['घाँस',getenglish(a['ghaasquantity']),getenglish(a['ghaasper']),getenglish(a['ghaastotal']),a['billno']]);
                     paymentdetailskaath.push(['आम्दानी','घाँस बिक्री',getenglish(a['amount']),a['salesdate']]);
                 checklist.push(['घाँस बिक्री',banpaidawarid]);
+                console.log("paymentdetailskaath from anyetotal is"+paymentdetailskaath);
 
                      con.query(ghaasbikri,[dataghaas],function(err,result3)
                     {
@@ -1077,37 +1106,50 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
 
                     })
                 }
-               if(length>0)
+               if(length>0 || length1>0)
                {
+                console.log("checklist is " +checklist)
+                console.log("checklist length  is " +checklist.length)
+
                 for(i=0;i<checklist.length;i++)
                 {
-                    var checkitemlist= `SELECT * from accountinformation where accountname=${checklist[0][0]}`;
+                    var checkitemlist= "SELECT * from accountinformation where accountname=?";
+                 
                     console.log("CHEcklist "+checklist);
-                    con.query(checkitemlist,function(err,result5)
+                    console.log("CHEcklist name "+checklist[i][0]);
+
+                    con.query(checkitemlist,[checklist[i][0]],function(err,result5,fields)
                     {
-                        // if(err) console.log(err);
-                        if(err)
-                        {
-                            con.query("INSERT INTO accountinformation(accountname,title) values (?)",[checklist[i]],function(err,result6)
+                        console.log("Result5 is "+ result5.length);
+                        if(err) console.log("EX1 is "+ err);
+                        // if(err)
+                        // {
+                            if(result5.length===0)
                             {
-                                if(err) console.log(err);
+                            con.query("INSERT INTO accountinformation(accountname,title) values (?)",[checklist[0]],function(err,result6)
+                            {
+                                console.log("Result6 is "+result6)
+                                if(err) console.log("EX is"+ err);
 
                             });
                         }
+                        // }
                         
                     })
 
                   }
-                 con.query(insertintokaathbikri,[data],function(err,result2)
-              
-               
-                {
-                    if(err) console.log(err);
-                    con.query(paymentfromkaath,[paymentdetailskaath],function(err,results)
+                  console.log("Payment details kaath is "+ paymentdetailskaath);
+                   con.query(paymentfromkaath,paymentdetailskaath,function(err,results)
                     {
                       if(err)  console.log(err);
                         console.log("Successfully inserted ");
                     })
+                 con.query(insertintokaathbikri,[data],function(err,result2)
+              
+                {
+                    if(err) console.log(err);
+
+                   
                 });
                 }
                 })
@@ -1213,7 +1255,7 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
             
         
 
-
+}
         console.log(transactionno);
         return res.redirect('/kaathdaura'); 
 

@@ -26,7 +26,7 @@ $.ajax({
 
 		for(i=0;i<data.result.length;i++)
 		{
-			$('table.subtitletable').append(`<tr class="row m-0" ><td class="col-md-6">${data.result[i].account}</td><td class="col-md-6">${data.result[i].totalamount}</td></tr>`);
+			$('table.subtitletable').append(`<tr class="row m-0" ><td class="col-md-6">${data.result[i].subaccount}</td><td class="col-md-6">${data.result[i].totalamount}</td></tr>`);
 
 		}
 		$('table.subtitletable').append(`<tr class="row m-0"><td class="col-md-6">जम्मा</td><td class="col-md-6">${data.total}</td></tr></table></div>`)

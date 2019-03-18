@@ -506,7 +506,8 @@ console.log("per is"+tableanyetestvalue1);
 if(Number(returnnumber(tableanyetestvalue))>0 && Number(returnnumber(tableanyetestvalue1))>0)
 {
   console.log("entered");
-$(`#anyetotal-${i+1}`).val(returnnepalinumber(returnnumber(tableanyetestvalue)*returnnumber(tableanyetestvalue1)));
+
+$(`#anyetotal-${i+1}`).val(returnnepalinumber((returnnumber(tableanyetestvalue)*returnnumber(tableanyetestvalue1)).toFixed(2)));
 totalamount=totalamount+Number(returnnumber($(`#anyetotal-${i+1}`).val()));
 console.log("FROM anye total"+totalamount);
 }
@@ -519,7 +520,7 @@ console.log("FROM anye total"+totalamount);
 if(targetid==='ghaas')
 {
 // var testtotal=Number(returnnumber($("#totalamount").val().split(' ')[1])); 
-ghaastotal=returnnumber($(`#ghaasquantity`).val()) * returnnumber($(`#per-ghaas`).val());
+ghaastotal=(returnnumber($(`#ghaasquantity`).val()) * returnnumber($(`#per-ghaas`).val())).toFixed(2);
 $("#ghaastotal").val(returnnepalinumber(ghaastotal));
 // testtotal=testtotal+ghaastotal;
 // $("#totalamount").val(`${returnnepalinumber(ghaastotal)}`);
@@ -527,7 +528,7 @@ $("#ghaastotal").val(returnnepalinumber(ghaastotal));
 if(value>0 && targetid!=='ghaas' && targetid!=='anye'  )
 {
 
-var amountinnepali=returnnumber($(`#quantity-${targetid}`).val()) * returnnumber($(`#per-${targetid}`).val());
+var amountinnepali=(returnnumber($(`#quantity-${targetid}`).val()) * returnnumber($(`#per-${targetid}`).val())).toFixed(2);
 console.log(amountinnepali);
 amountinnepali=returnnepalinumber(amountinnepali);
 console.log(amountinnepali);
@@ -551,6 +552,8 @@ totalamount=totalamount+Number(returnnumber($(`#amount-${i}`).val()));
 console.log(totalamount);
 // console.log("AMout is "+Number(returnnumber($(`#amount-${i}`).val() )));
 }
+totalamount=totalamount.toFixed(2)
+
 console.log("Total amount is "+totalamount);
 
 // }
