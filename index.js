@@ -871,6 +871,8 @@ app.post('/pay/:id', function(req, res) {
                 data2 = [];
                 data3 = [];
                 data4 = [];
+                var testgullino= [req.body.gullino];
+                var testanye=[req.body.anyename];
                 // var length=a['gullino'].length;
                 var length=0;
                 var length1=0;
@@ -881,8 +883,8 @@ app.post('/pay/:id', function(req, res) {
                     length=length+1;
                         }
                     }
-                    var length1;
-                    i=0;
+                    
+                    
                     for(i in testanye)
                     {
                         if(testanye[i].length>0)
@@ -892,11 +894,11 @@ app.post('/pay/:id', function(req, res) {
                     }
 
 var regex = /^[0-9]{4}[\-][0-9]{2}[\-][0-9]{2}$/g;
-
-if(regex.test(req.body.salesdate) && (length>0 || length1>0))
-{
-                var testgullino= [req.body.gullino];
-                var testanye=[req.body.anyename];
+var testresult=regex.test(req.body.salesdate);
+console.log("TEst result is" + testresult);
+// if(testresult==='true')
+// {
+                
                 // var length1= testanye.length;
                 console.log("Rest"+testgullino);
                 // if(testgullino)
@@ -1256,8 +1258,8 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
             
         
 
-}
-        console.log(transactionno);
+// }
+        // console.log(transactionno);
         return res.redirect('/kaathdaura'); 
 
         // res.render('pages/kaathdaura', { results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3], error: error });
