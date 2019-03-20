@@ -262,6 +262,10 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
 
     	if(result.length>0)
     	{
+    	var startdate=new Date(`${result[0]['startdate']}`);
+    	var enddate= new Date(`${data.enddate}`);
+    	enddate.setDate(enddate-1)
+
         console.table(result);
     	$('.appendsearch').html('');
     	$('.appendsearch').append(`

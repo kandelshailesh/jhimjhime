@@ -780,7 +780,7 @@ app.post('/pay/:id', function(req, res) {
                 var a = req.body;
                 var i;
                 var testgullino=[req.body.gullino];
-                var length=testgullino.length;
+                var length=0;
                 console.log("Length is " + length);
                 var data = [];
                 var data1 = [];
@@ -788,6 +788,15 @@ app.post('/pay/:id', function(req, res) {
                 var data3 = [];
                 var data4 = [];
                 console.log("A is " + length);
+
+                  for(i in testgullino)
+                    {
+                        if(testgullino[i].length>0)
+                        {
+                    length=length+1;
+                        }
+                    }
+
                 if (length === 1) {
                     data.push(getenglish(a['gullino']), a['kaathname'], a['collectiontype'], a['unit'],getenglish(a['quantity']));
                     data1.push(collectiontype(a['collectiontype']));
@@ -795,14 +804,19 @@ app.post('/pay/:id', function(req, res) {
                     data3.push(a['kaathname']);
                     // data4.push(a['grade']);
 
-                } else {
-                    for (i = 0; i < length; i++) {
+                } else 
+                { 
+                    if(length>0)
+                    {
+                    for (i = 0; i < length; i++) 
+                    {
                         data.push([getenglish(a['gullino'][i]), a['kaathname'][i], a['collectiontype'][i], a['unit'][i], getenglish(a['quantity'][i])]);
                         data1.push(collectiontype(a['collectiontype'][i]));
                         data2.push(Number(getenglish(a['quantity'][i])));
                         data3.push(a['kaathname'][i]);
                         // data4.push(a['grade'][i]);
 
+                    }
                     }
                 }
                 console.log("Data is " + data)
@@ -846,16 +860,16 @@ app.post('/pay/:id', function(req, res) {
                     });
                     var kaathstatus = [];
                     if (length === 1) {
-                        kaathstatus.push([getenglish(a['gullino']), 'बिक्री भाछैन']);
+                        kaathstatus.push([getenglish(a['gullino']), 'बिक्री भएको छैन']);
                     } else {
                         for (i = 0; i < length; i++) {
-                            kaathstatus.push([getenglish(a['gullino'][i]), 'बिक्री भाछैन']);
+                            kaathstatus.push([getenglish(a['gullino'][i]), 'बिक्री भएको भाछैन']);
                         }
                     }
                     console.log(kaathstatus);
                     var changekaathtransaction = "INSERT into kaathtransaction(gullino,status) values ?";
                     con.query(changekaathtransaction, [kaathstatus], function(e) {
-                        if (err) console.log(err)
+                        if (err) console.log(err);
                         console.log("Status chagn")
                     })
                 }
@@ -1230,19 +1244,25 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
 
 
                     });
+                }
                     var gullino = [];
                     var kaathstatus = [];
-                    if (data1.length === 1) {
-                        gullino.push([a['gullino']]);
+                    if (length === 1) {
+                        gullino.push(Number(getenglish([a['gullino']])));
                         kaathstatus.push(['बिक्री भयो']);
                     } else {
-                        for (i = 0; i < data1.length; i++) {
-                            gullino.push([a['gullino'][i]]);
+                        for (i = 0; i < length; i++) {
+                        gullino.push(Number(getenglish([a['gullino']])));
+
+                            // gullino.push([a['gullino'][i]]);
 
                             kaathstatus.push(['बिक्री भयो']);
                         }
                     }
                     // var changekaathtransaction = "INSERT into kaathtransaction(gullino,status) values ?";
+                    console.log("Kaathstatus from "+ kaathstatus);
+                    console.log("GUllino  from "+ gullino);
+
                     kaathstatus.forEach(function(result, counter) {
                         var changekaathtransaction = "UPDATE kaathtransaction set status=? where gullino= ?";
 
@@ -1254,7 +1274,7 @@ var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`personname`, `total`
                 }
               
 
-              }
+              
             
         
 
