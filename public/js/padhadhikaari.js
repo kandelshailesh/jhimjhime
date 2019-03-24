@@ -1,19 +1,45 @@
-for (var i = 1; i < 2; i++) {
+   i=1;
 	
+	var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
 
-    $('.padhadhikaaritable').append(`<tr  class=" m-0  row text-center">
+	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option>`;
+
+	$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.postlist);
+
+				for(j=0;j<data.postlist.length;j++)
+				{
+		 samitipostlist+=`<option value='${data.postlist[j].id}'>${data.postlist[j].name}</option>`
+		}
+		samitipostlist+='</select>'
+				for(k=0;k<data.titlelist.length;k++)
+				{
+		 samitititlelist+=`<option value='${data.titlelist[k].id}'>${data.titlelist[k].name}</option>`
+		}
+		samitititlelist+='</select>'
+		$('.padhadhikaaritable').append(`<tr  class=" m-0  row text-center">
 			<td id="sn" class="col-md-2">${i}</td>
 			<td   class="col-md-4 p-0"><input id="padhadhikaariname-${i}" name="padhadhikaariname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option><option value='1'>अध्यक्ष</option><option  value='2'>उपाध्यक्ष</option><option  value='3'>सचिव</option><option  value='4'>सह सचिव</option><option value='5'>सदस्य</option><option value='6'>सल्लाहकार</option><option value='7'>संयाेजक</option><option value='8'>कास</option><option value='9'>वन हेरालु</option></select></td>
+			<td  class="col-md-3 p-0">${samitipostlist}</td>
 			<td  class="col-md-3 p-0">
-			<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; " name="samiti-${i}" >
-			<option selected='selected' value='0'>---------------------</option><option  value='1'>कार्य समिति</option><option  value='2'>लेखा समिति </option><option  value='3'>कर्मचारी विवरण</option>
-			
-        </select></td>
+			${samitititlelist}</td>
 		
 		
 		</tr>`);
-}
+
+		}
+
+
+
+	})
+
+    
+
 
 
 // <td class="col-md-1 p-0"><button type="button" id="itemdel-${i}" class="btn btn-sm btn-danger">
@@ -25,19 +51,74 @@ for (var i = 1; i < 2; i++) {
 
 function returnpost(value)
 {
+	alert("Post");
+var post={};
+$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.postlist);
 
-
-var post = {'1':'अध्यक्ष','2':'उपाध्यक्ष','3':'सचिव','4':'सह सचिव','5':'सदस्य','6':'सल्लाहकार','7':'संयाेजक','8':'कास','9':'वन हेरालु'};
+for(j=0;j<data.postlist.length;j++)
+{
+	post[data.postlist[j].id]=0;
+}
+console.log(post);
+for(k=0;k<data.postlist.length;k++)
+{
+ post[data.postlist[k].id]=data.postlist[k].name;
+}
+console.log(post);
+console.log("Post value is"+post[value]);
 
 
 return post[value];
+
 }
+
+
+	
+})
+}
+
+
+// var post = {'1':'अध्यक्ष','2':'उपाध्यक्ष','3':'सचिव','4':'सह सचिव','5':'सदस्य','6':'सल्लाहकार','7':'संयाेजक','8':'कास','9':'वन हेरालु'};
+// return post[value];
+
 
 function returnsamiti(value)
 {
 
-var samiti = {'1':'कार्य समिति','2':'लेखा समिति','3':'कर्मचारी विवरण'};
-return samiti[value];
+alert("Samiti");
+	var title={};
+$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.titlelist);
+
+for(j=0;j<data.titlelist.length;j++)
+{
+	title[data.titlelist[j].id]=0;
+}
+console.log(title)
+for(k=0;k<data.titlelist.length;k++)
+{
+ title[data.titlelist[k].id]=data.titlelist[k].name;
+}
+console.log(title);
+console.log("title is "+title[value]);
+return title[value];
+
+}
+})
+
+// var samiti = {'1':'कार्य समिति','2':'लेखा समिति','3':'कर्मचारी विवरण'};
+// return samiti[value];
 }
 
 function returnsex(value)
@@ -60,19 +141,41 @@ return sex[value];
 	if($(`#padhadhikaariname-${i}`).length === 0 && e.keyCode===
 		13)
   {
-    $('.padhadhikaaritable').append(`<tr  class=" m-0 extraadded  row text-center">
-			
+    var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
 
-			<td id="sn" class="col-md-2 ">${i}</td>
+	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option>`;
+
+	$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.postlist);
+
+				for(j=0;j<data.postlist.length;j++)
+				{
+		 samitipostlist+=`<option value='${data.postlist[j].id}'>${data.postlist[j].name}</option>`
+		}
+		samitipostlist+='</select>'
+				for(k=0;k<data.titlelist.length;k++)
+				{
+		 samitititlelist+=`<option value='${data.titlelist[k].id}'>${data.titlelist[k].name}</option>`
+		}
+		samitititlelist+='</select>'
+		$('.padhadhikaaritable').append(`<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2">${i}</td>
 			<td   class="col-md-4 p-0"><input id="padhadhikaariname-${i}" name="padhadhikaariname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><select onchange="postchange(event)" onkeypress="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option><option value='1'>अध्यक्ष</option><option  value='2'>उपाध्यक्ष</option><option  value='3'>सचिव</option><option  value='4'>सह सचिव</option><option value='5'>सदस्य</option><option value='6'>सल्लाहकार</option><option value='7'>संयाेजक</option><option value='8'>कास</option><option value='9'>वन हेरालु</option></select></td>
+			<td  class="col-md-3 p-0">${samitipostlist}</td>
 			<td  class="col-md-3 p-0">
-			<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; "  >
-			<option selected='selected' value='0'>---------------------</option><option  value='1'>कार्य समिति</option><option  value='2'>लेखा समिति </option><option  value='3'>कर्मचारी विवरण</option>
-			
-        </select></td>
+			${samitititlelist}</td>
+		
 		
 		</tr>`);
+
+		}
+	})
+
 	
 }
 // }
@@ -81,7 +184,8 @@ return sex[value];
 // e.preventDefault();
 	 $(`#padhadhikaariname-${i}`).focus();
 
-}
+	}
+
 
 
 function typechange(event)
@@ -253,7 +357,7 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
     {
    $.ajax({
    	type:'post',
-    url:'padhadhikaarikhoj',
+    url:'/padhadhikaarikhoj',
     data:{samitino:samitino},
     success:function(data)
     {
@@ -435,3 +539,101 @@ var currenttime = currenttime.toLocaleTimeString();
 $('#startdate').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
 $('#startdate').attr('class','text-center ml-2');
 $('#startdate').val(currentdate);
+
+
+$('#titleModal').on('shown.bs.modal', function (e) {
+  // do something...
+  $('#titleModal').find('[autofocus]').focus();
+})
+
+$('#postModal').on('shown.bs.modal', function (e) {
+  // do something...
+  $('#postModal').find('[autofocus]').focus();
+})
+
+$('.samitiposts').on('submit',function(e)
+{
+	e.preventDefault();
+	var formdata= $('.samitiposts').serializeArray();
+	var formobj=[];
+	$.each(formdata,function(i,input)
+	{
+		formobj.push(input.value);
+	})
+
+console.log(formobj);
+$.ajax({
+	url:'/samitipostcreate',
+	type:'post',
+	data:{formobj:formobj},
+	success:function(data)
+	{
+	alert("पद जोडियो");
+		$('.samitiposts').trigger('reset');
+	$('#postModal').find('button').get(0).click()
+
+	// $('#postModal').modal('toggle');
+		
+	},
+	error:function(data)
+	{
+		alert(data.responseText);
+
+
+		// alert("समितिको नाम पहिल्यै छ");
+	}
+
+})
+
+
+})
+
+
+
+
+$('.samitititles').on('submit',function(e)
+{
+	// alert("Entered");
+	// e.preventDefault();
+	e.preventDefault();
+	var formdata= $('.samitititles').serializeArray();
+	var formobj=[];
+	$.each(formdata,function(i,input)
+	{
+		formobj.push(input.value);
+	})
+	console.log(formobj);
+$.ajax({
+	url:'/samitititlecreate',
+	type:'post',
+	data:{formobj:formobj},
+	success:function(data)
+	{
+	alert("समिति जोडियो");
+	$('.samitititles').trigger('reset');
+
+	$('#titleModal').find('button').get(0).click()
+
+
+	// $('#titleModal').find('button.close').click();
+	// $('#titleModal').modal("hide");
+	// $('#titleModal').hide();
+	// $('body').removeClass('modal-open')
+	// $('div.modal-backdrop').removeClass('show');
+	// $('.samitititles').trigger('reset');
+
+	},
+	error:function(data)
+	{
+	console.log(data.responseText);
+	alert(data.responseText);
+
+	// $('#titleModal').modal('show');
+	// alert("यो पद पहिल्यै छ");
+	}
+
+})
+
+	// e.preventDefault();
+
+})

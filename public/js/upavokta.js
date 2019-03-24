@@ -458,3 +458,10 @@ $(`#fnamekhoj-${id}`).attr('contenteditable','false');
 	$(`#sexkhoj-${id}`).show();	
 $(`select#upavoktaaddress-${id}`).hide();
 	$(`select#upavoktasex-${id}`).hide();}
+
+
+
+	$('#locationModal').on('shown.bs.modal', function (e) {
+  // do something...
+  $('#locationModal').find('[autofocus]').focus();
+})

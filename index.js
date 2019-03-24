@@ -173,6 +173,14 @@ else
 })
 })
 
+
+app.get('/petrolpump',function(req,res)
+{
+    
+        res.render('pages/petrolpump')
+
+ })
+
 app.get('/daybookkhoj',function(req,res)
 {
     var latest = "select * from title";
@@ -239,6 +247,56 @@ app.get('/kaathdaura', function(req, res) {
         res.render('pages/kaathdaura', { error: '', results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3] });
     });
     // res.render('pages/kaathdaura');
+})
+
+
+app.post('/samitititlecreate',function(req,res)
+{
+  console.log(req.body);
+  var samitititledetails= [req.body.formobj];
+
+  // .itemsname,req.body.formobj.itemalias,req.body.formobj.units,req.body.formobj.itemgroupcreate];
+  var insertintoitemtable= "INSERT INTO `samitititle`(`name`) VALUES ?";
+  con.query(insertintoitemtable,[[samitititledetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+    // console.log(err);
+    res.status(500).send({error:'समितिको नाम पहिल्यै छ'}); 
+      // res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/samitipostcreate',function(req,res)
+{
+  console.log(req.body);
+  var samitipostdetails= [req.body.formobj];
+  
+  // .itemsname,req.body.formobj.itemalias,req.body.formobj.units,req.body.formobj.itemgroupcreate];
+  var insertintoitemtable= "INSERT INTO `samitipost`(`name`) VALUES ?";
+  con.query(insertintoitemtable,[[samitipostdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+    // console.log(err);
+    res.status(500).send('समितिको नाम पहिल्यै छ'); 
+      // res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
 })
 
 app.post('/ledger',function(req,res)
@@ -1502,6 +1560,16 @@ app.get('/pay', function(req, res) {
     });
     // res.render('pages/payment',);
 });
+
+
+app.post('/allselectlist',function(req,res)
+{
+var selectlist= "SELECT * from samitititle; SELECT * from samitipost; SELECT * from upavoktalocation";
+con.query(selectlist,function(err,result)
+{
+    res.json({'titlelist':result[0],'postlist':result[1],'locationlist':result[2]});
+})
+})
 
 // about page 
 app.get('/payment', function(req, res) {
