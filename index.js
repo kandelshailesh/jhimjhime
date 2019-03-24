@@ -275,6 +275,29 @@ app.post('/samitititlecreate',function(req,res)
 })
 
 
+app.post('/upavoktalocationcreate',function(req,res)
+{
+  console.log(req.body);
+  var upavoktalocationdetails= [req.body.formobj];
+
+  // .itemsname,req.body.formobj.itemalias,req.body.formobj.units,req.body.formobj.itemgroupcreate];
+  var insertintoitemtable= "INSERT INTO `upavoktalocation` (`name`) VALUES ?";
+  con.query(insertintoitemtable,[[upavoktalocationdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+    // console.log(err);
+    res.status(500).send({error:'ठेगाना पहिल्यै छ'}); 
+      // res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
+})
 app.post('/samitipostcreate',function(req,res)
 {
   console.log(req.body);

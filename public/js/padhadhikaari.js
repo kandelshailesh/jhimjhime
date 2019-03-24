@@ -1,8 +1,8 @@
    i=1;
 	
-	var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
+	var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control samitititleuniversal " style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
 
-	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option>`;
+	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control samitipostuniversal'><option selected='selected' value='0'>-------------------</option>`;
 
 	$.ajax({
 		url:'/allselectlist',
@@ -141,9 +141,9 @@ return sex[value];
 	if($(`#padhadhikaariname-${i}`).length === 0 && e.keyCode===
 		13)
   {
-    var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control" style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
+    var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control samitititleuniversal " style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
 
-	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control'><option selected='selected' value='0'>-------------------</option>`;
+	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control samitipostuniversal'><option selected='selected' value='0'>-------------------</option>`;
 
 	$.ajax({
 		url:'/allselectlist',
@@ -570,7 +570,9 @@ $.ajax({
 	{
 	alert("पद जोडियो");
 		$('.samitiposts').trigger('reset');
-	$('#postModal').find('button').get(0).click()
+	$('#postModal').find('button').get(0).click();
+	  window.location.reload();
+
 
 	// $('#postModal').modal('toggle');
 		
@@ -597,6 +599,7 @@ $('.samitititles').on('submit',function(e)
 	// e.preventDefault();
 	e.preventDefault();
 	var formdata= $('.samitititles').serializeArray();
+
 	var formobj=[];
 	$.each(formdata,function(i,input)
 	{
@@ -612,7 +615,8 @@ $.ajax({
 	alert("समिति जोडियो");
 	$('.samitititles').trigger('reset');
 
-	$('#titleModal').find('button').get(0).click()
+	$('#titleModal').find('button').get(0).click();
+  window.location.reload();
 
 
 	// $('#titleModal').find('button.close').click();

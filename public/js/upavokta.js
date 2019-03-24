@@ -1,27 +1,35 @@
-for (var i = 1; i < 2; i++) {
-	
+i=1;
+var selectlocation=`<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; text-align: center; " name="upavoktaaddress-${i}" id="upavoktaaddress-${i}" class="w-100" >`;
+
+
+	$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.locationlist);
+
+				for(j=0;j<data.locationlist.length;j++)
+				{
+		 selectlocation+=`<option value='${data.locationlist[j].id}'>${data.locationlist[j].name}</option>`
+		}
+
+		selectlocation+='</select>'
+			
 
     $('.upavoktatable').append(`<tr  class=" m-0  row text-center">
 			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
 			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
 			<td  class="col-md-3 p-0"><input style="text-align-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
-			<td  class="col-md-3 p-0">
-			<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; text-align: center; " name="upavoktaaddress-${i}" id="upavoktaaddress-${i}" class="w-100" >	
-			<option value='1'>झिमझिमिया गाउटोल</option>
-			<option value='2'>काेटियाथान टोल</option>
-			<option value='3'>शान्ति टोल</option>
-			<option value='4'>बेम्तहनी टोल</option>
-		
-       
-
-
-        </select></td>
+			<td  class="col-md-3 p-0">${selectlocation}</td>
 			<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>
           </select></td>
 		
 		</tr>`);
 }
+})
 
 
 // <td class="col-md-1 p-0"><button type="button" id="itemdel-${i}" class="btn btn-sm btn-danger">
@@ -51,25 +59,38 @@ function returnnepalinumber(value)
 	// {
 	if($(`#upavoktaname-${i}`).length === 0)
   {
-    $('.upavoktatable').append(`<tr  class=" m-0 extraadded  row text-center">
-			<td id="sn"  class="col-md-1 p-0"><input type="text" class="w-100 text-center" id="upavoktaid-${i}"></td>
-				
-			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><input type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
-			<td  class="col-md-3 p-0">
-			<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; text-align: center; " name="upavoktaaddress-${i}" id="upavoktaaddress-${i}" class="w-100" >
+ 
+var selectlocation=`<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; text-align: center; " name="upavoktaaddress-${i}" id="upavoktaaddress-${i}" class="w-100" >`;
+
+
+	$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.locationlist);
+
+				for(j=0;j<data.postlist.length;j++)
+				{
+		 selectlocation+=`<option value='${data.locationlist[j].id}'>${data.location[j].name}</option>`
+		}
+
+		selectlocation+='</select>'
 			
-			<option value='1'>झिमझिमिया गाउटोल</option>
-			<option value='2'>काेटियाथान टोल</option>
-			<option value='3'>शान्ति टोल</option>
-			<option value='4'>बेम्तहनी टोल</option>
-		
-        </select></td>
+
+    $('.upavoktatable').append(`<tr  class=" m-0  row text-center">
+			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
+			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
+			<td  class="col-md-3 p-0"><input style="text-align-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
+			<td  class="col-md-3 p-0">${selectlocation}</td>
 			<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>
-            </select></td>
+          </select></td>
 		
 		</tr>`);
+}
+})
 }
 // }
 
@@ -464,4 +485,56 @@ $(`select#upavoktaaddress-${id}`).hide();
 	$('#locationModal').on('shown.bs.modal', function (e) {
   // do something...
   $('#locationModal').find('[autofocus]').focus();
+})
+
+
+
+
+$('.upavoktalocations').on('submit',function(e)
+{
+	// alert("Entered");
+	// e.preventDefault();
+	e.preventDefault();
+	var formdata= $('.upavoktalocations').serializeArray();
+
+	var formobj=[];
+	$.each(formdata,function(i,input)
+	{
+		formobj.push(input.value);
+	})
+	console.log(formobj);
+$.ajax({
+	url:'/upavoktalocationcreate',
+	type:'post',
+	data:{formobj:formobj},
+	success:function(data)
+	{
+	alert("ठेगाना जोडियो");
+	$('.upavoktalocations').trigger('reset');
+
+	$('#locationModal').find('button').get(0).click();
+  window.location.reload();
+
+
+	// $('#titleModal').find('button.close').click();
+	// $('#titleModal').modal("hide");
+	// $('#titleModal').hide();
+	// $('body').removeClass('modal-open')
+	// $('div.modal-backdrop').removeClass('show');
+	// $('.samitititles').trigger('reset');
+
+	},
+	error:function(data)
+	{
+	console.log(data.responseText);
+	alert(data.responseText);
+
+	// $('#titleModal').modal('show');
+	// alert("यो पद पहिल्यै छ");
+	}
+
+})
+
+	// e.preventDefault();
+
 })
