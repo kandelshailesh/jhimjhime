@@ -1,6 +1,7 @@
 i=1;
 var selectlocation=`<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; text-align: center; " name="upavoktaaddress-${i}" id="upavoktaaddress-${i}" class="w-100" >`;
 
+var selectlocationoption;
 
 	$.ajax({
 		url:'/allselectlist',
@@ -13,6 +14,8 @@ var selectlocation=`<select onkeypress="addresschange(event)"  onchange="address
 				for(j=0;j<data.locationlist.length;j++)
 				{
 		 selectlocation+=`<option value='${data.locationlist[j].id}'>${data.locationlist[j].name}</option>`
+		 selectlocationoption+=`<option value='${data.locationlist[j].id}'>${data.locationlist[j].name}</option>`
+
 		}
 
 		selectlocation+='</select>'
@@ -21,7 +24,7 @@ var selectlocation=`<select onkeypress="addresschange(event)"  onchange="address
     $('.upavoktatable').append(`<tr  class=" m-0  row text-center">
 			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
 			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><input style="text-align-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
+			<td  class="col-md-3 p-0"><input style="text-alignv-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
 			<td  class="col-md-3 p-0">${selectlocation}</td>
 			<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>
@@ -256,18 +259,92 @@ $("[id^=upavoktaform]").on('click',function(e)
 }
 })
 
+var addresscollection={};
+
 function returnaddress(value)
 {
-	
-var address ={'1':'झिमझिमिया गाउटोल','2':'काेटियाथान टोल','3':'शान्ति टोल','4':'बेम्तहनी टोल'}
-return address[value];
+
+	// alert("Post");
+
+$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		async:false,
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.locationlist);
+
+for(j=0;j<data.locationlist.length;j++)
+{
+	addresscollection[data.locationlist[j].id]=0;
 }
+// console.log(post);
+for(k=0;k<data.locationlist.length;k++)
+{
+ addresscollection[data.locationlist[k].id]=data.locationlist[k].name;
+ 
+}
+// console.log(post);
+
+
+// console.log("Post value is"+post[value]);
+
+
+
+
+}
+
+
+	
+})
+return addresscollection[value];
+}
+
+// var address ={'1':'झिमझिमिया गाउटोल','2':'काेटियाथान टोल','3':'शान्ति टोल','4':'बेम्तहनी टोल'}
+// return address[value];
+
+var addresscollectionreverse={};
 
 function returnaddressvalue(value)
 {
+alert("Post");
+
+$.ajax({
+		url:'/allselectlist',
+		type:'post',
+		async:false,
+		success:function(data)
+		{
+				console.log(data);
+				console.log(data.locationlist);
+
+for(j=0;j<data.locationlist.length;j++)
+{
+	addresscollectionreverse[data.locationlist[j].name]=0;
+}
+// console.log(post);
+for(k=0;k<data.locationlist.length;k++)
+{
+ addresscollectionreverse[data.locationlist[k].name]=data.locationlist[k].id;
+ 
+}
+// console.log(post);
+
+
+// console.log("Post value is"+post[value]);
+
+
+
+
+}
+
+
 	
-var address = {'झिमझिमिया गाउटोल':'1','काेटियाथान टोल':'2','शान्ति टोल':'3','बेम्तहनी टोल':'4'}
-return address[value];
+})
+return addresscollectionreverse[value];	
+// var address = {'झिमझिमिया गाउटोल':'1','काेटियाथान टोल':'2','शान्ति टोल':'3','बेम्तहनी टोल':'4'}
+// return address[value];
 }
 
 
@@ -301,7 +378,7 @@ console.log(upavoktakhojformObj);
     console.log(upavoktakhojformObj);
    $.ajax({
    	type:'post',
-    url:'upavoktakhoj',
+    url:'/upavoktakhoj',
     data:{upavoktakhojformObj:upavoktakhojformObj},
     success:function(data)
     {
@@ -332,18 +409,13 @@ console.log(upavoktakhojformObj);
 			<td   class="col-md-3" id='fnamekhoj-${result[i].userid}'>${result[i].fname}</td>
 			<td  class="col-md-2 " id='lnamekhoj-${result[i].userid}'>${result[i].lname}</td>
 			<td class="col-md-2 p-0 " >
-			<input class='w-100' id='addresskhoj-${result[i].userid}' value='${returnaddress(result[i].address)}' >
+			<input class='w-100' id='addresskhoj-${result[i].userid}' disabled  value='${returnaddress(result[i].address)}' >
 
 			<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; display:none; text-align: center; " name="upavoktaaddress-${result[i].userid}" id="upavoktaaddress-${result[i].userid}" class="w-100" >
-			
-			<option value='1'>झिमझिमिया गाउटोल</option>
-			<option value='2'>काेटियाथान टोल</option>
-			<option value='3'>शान्ति टोल</option>
-			<option value='4'>बेम्तहनी टोल</option>
-		
+			${selectlocationoption}
         </select></td>
 			<td class="col-md-2 p-0 ">
-			<input class='w-100' id='sexkhoj-${result[i].userid}' value=${returnsex(result[i].sex)}>
+			<input class='w-100' id='sexkhoj-${result[i].userid}' disabled value=${returnsex(result[i].sex)}>
 
 			<select  id="upavoktasex-${result[i].userid}" name="upavoktasex-${result[i].userid}"  type="text" style="text-align-last:center; text-align: center; display:none; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>

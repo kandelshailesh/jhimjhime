@@ -1,5 +1,5 @@
 // var targArea =$("#itemname-1");
-// console.log(targArea);
+// console.lolog(targArea);
 $('.iteminformations').on('keyup', 'input', function(e) {
     var self = $(this),
         form = self.parents('form:eq(0)'),

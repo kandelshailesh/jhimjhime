@@ -3,6 +3,10 @@
 	var samitititlelist=`<select onkeypress="createnew(event)" id="samiti-${i}" onchange="createnew(event)" class="form-control samitititleuniversal " style="text-align-last:center; text-align: center; " name="samiti-${i}" ><option selected='selected' value='0'>-------------------</option>`;
 
 	var samitipostlist=`<select onchange="postchange(event)" name='post-${i}' style="text-align-last:center; text-align:center;" id='post-${i}' class='form-control samitipostuniversal'><option selected='selected' value='0'>-------------------</option>`;
+	var samitititleoptionlist;
+	var samitipostoptionlist;
+
+
 
 	$.ajax({
 		url:'/allselectlist',
@@ -15,11 +19,14 @@
 				for(j=0;j<data.postlist.length;j++)
 				{
 		 samitipostlist+=`<option value='${data.postlist[j].id}'>${data.postlist[j].name}</option>`
+		 samitipostoptionlist+=`<option value='${data.postlist[j].id}'>${data.postlist[j].name}</option>`
+
 		}
 		samitipostlist+='</select>'
 				for(k=0;k<data.titlelist.length;k++)
 				{
-		 samitititlelist+=`<option value='${data.titlelist[k].id}'>${data.titlelist[k].name}</option>`
+		 samitititlelist+=`<option value='${data.titlelist[k].id}'>${data.titlelist[k].name}</option>`;
+		 samitititleoptionlist+=`<option value='${data.titlelist[k].id}'>${data.titlelist[k].name}</option>`
 		}
 		samitititlelist+='</select>'
 		$('.padhadhikaaritable').append(`<tr  class=" m-0  row text-center">
@@ -47,15 +54,16 @@
 // </button></td>
 // $('[id^=amount]').on('keydown',function(e)
 // {
-
+var post={};
 
 function returnpost(value)
 {
 	alert("Post");
-var post={};
+
 $.ajax({
 		url:'/allselectlist',
 		type:'post',
+		async:false,
 		success:function(data)
 		{
 				console.log(data);
@@ -69,18 +77,22 @@ console.log(post);
 for(k=0;k<data.postlist.length;k++)
 {
  post[data.postlist[k].id]=data.postlist[k].name;
+ 
 }
 console.log(post);
+
+
 console.log("Post value is"+post[value]);
 
 
-return post[value];
+
 
 }
 
 
 	
 })
+return post[value];
 }
 
 
@@ -92,10 +104,11 @@ function returnsamiti(value)
 {
 
 alert("Samiti");
-	var title={};
+var title={};
 $.ajax({
 		url:'/allselectlist',
 		type:'post',
+		async:false,
 		success:function(data)
 		{
 				console.log(data);
@@ -110,12 +123,13 @@ for(k=0;k<data.titlelist.length;k++)
 {
  title[data.titlelist[k].id]=data.titlelist[k].name;
 }
+
 console.log(title);
 console.log("title is "+title[value]);
-return title[value];
 
 }
 })
+return title[value];
 
 // var samiti = {'1':'कार्य समिति','2':'लेखा समिति','3':'कर्मचारी विवरण'};
 // return samiti[value];
@@ -382,24 +396,28 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
                             <th class="col-md-3">समिति</th> 
                             <th class="col-md-2"></th> 
                             </tr>`);
-                  
+               
+               var postname;
+               var samitiname;   
     		for(var i=0;i<result.length;i++)
     		{
+
+    			postname=returnpost(result[i].post);
+    			console.log("POST NAME is"+postname);
+    			samitiname=returnsamiti(result[i].samiti);
     			$('.padhadhikaaritablekhoj').append(`<tr id="user-${result[i].id}" class=" m-0 extraadded  row text-center">
 			<td   class="col-md-4" id='namekhoj-${result[i].id}'>${result[i].upavoktaname}</td>
 			<td class="col-md-3 p-0" id='postkhoj-${result[i].id}'>
-			<label class="postwrite-${result[i].id} mt-1">${returnpost(result[i].post)}</label>
+			<label class="postwrite-${result[i].id} mt-1">${postname}</label>
 			<select name='post-${result[i].id}' style="text-align-last:center; display:none; text-align:center;" id='postkhoj-${result[i].id}'>
-<option  value='0'>-------------------</option><option value='1'>अध्यक्ष</option><option  value='2'>उपाध्यक्ष</option><option  value='3'>सचिव</option><option  value='4'>सह सचिव</option><option value='5'>सदस्य</option><option value='6'>सल्लाहकार</option><option value='7'>संयाेजक</option><option value='8'>कास</option><option value='9'>वन हेरालु</option></select>
+			${samitipostoptionlist}
 			</td>
 			<td class="col-md-3 p-0 " id='samitikhoj-${result[i].id}'>
-			<label class="samitiwrite-${result[i].id} mt-1">${returnsamiti(result[i].samiti)}</label>
+			<label class="samitiwrite-${result[i].id} mt-1">${samitiname}</label>
 
 			<select id="samitikhoj-${result[i].id}" class="form-control" style="text-align-last:center; text-align: center; display:none;" >
-			<option value='0'>---------------------</option>
-			<option  value='1'>कार्य समिति</option>
-			<option  value='2'>लेखा समिति </option>
-			<option  value='3'>कर्मचारी विवरण</option>
+			
+			${samitititleoptionlist}
 			
         </select></td>
 
@@ -499,6 +517,9 @@ console.log(data1);
 			$(`.modifybutton-${id}`).show();
 			$(`.modifysubmitbutton-${id}`).hide();
 			$(`.cancel-${id}`).hide();
+				$(`#namekhoj-${id}`).attr('contenteditable','false');
+	$(`#postkhoj-${id}`).attr('contenteditable','false');
+	$(`#samitikhoj-${id}`).attr('contenteditable','false');
 			console.log("Modified");
 	
 

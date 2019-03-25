@@ -1,28 +1,21 @@
-// gulpfile.js should look like this:
+var gulp = require('gulp');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
+var nodemon = require('gulp-nodemon');
 
-// var gulp = require('gulp');
-// // var sass = require('gulp-sass');
-// var bs = require('browser-sync').create();
 
-// gulp.task('browser-sync', function() {
-//     bs.init({
-//         server: {
-//             baseDir: "./"
-//         }
-//     });
-// });
+gulp.task('browser-sync', gulp.series(nodemon, function() {
+    browserSync.init(null, {
+        proxy: "http://localhost:3000", // port of node server
+    });
+}));
 
-// gulp.task('sass', function () {
-//     return gulp.src('scss/*.scss')
-//                 .pipe(sass())
-//                 .pipe(gulp.dest('css'))
-//                 .pipe(bs.reload({stream: true}));
-// });
+gulp.task('default', gulp.series(browserSync, function () {
+    gulp.watch(["./views/pages/*.ejs","./views/partials/*.ejs"], reload);
+}));
 
-// gulp.task('watch', ['browser-sync'], function () {
-//     gulp.watch("scss/*.scss", ['sass']);
-//     gulp.watch("*.ejs,*.js").on('change', bs.reload);
-// });
+
+
 
 
 // 'use strict';
@@ -92,22 +85,84 @@ var deferred = require('deferred');
 // var reload = require('reload');
 var nepali = require('get-nepali-number');
 
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "buddha",
+//     password: "Sha677@#",
+//     database: 'buddhasaba',
+//     multipleStatements: true
+// });
+
 var con = mysql.createConnection({
     host: "localhost",
-    user: "buddha",
-    password: "Sha677@#",
+    user: "root",
+    password: "",
+    port: 3308,
     database: 'buddhasaba',
     multipleStatements: true
 });
 
-// var con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     port: 3308,
-//     database: 'buddhasaba',
-//     multipleStatements: true
-// });
+getEmployeeNames = function(){
+  return new Promise(function(resolve, reject){
+    con.query(
+        "SELECT * FROM samitipost;SELECT * from samitititle", 
+        function(err, rows){                                                
+            if(rows === undefined){
+                reject(new Error("Error rows is undefined"));
+            }else{
+
+                resolve(rows);
+
+            }
+        }
+    )}
+)}
+
+getStudentNames = function(){
+  return new Promise(function(resolve, reject){
+    con.query(
+        "SELECT * from upavoktalocation", 
+        function(err, rows){                                                
+            if(rows === undefined){
+                reject(new Error("Error rows is undefined"));
+            }else{
+
+                resolve(rows);
+
+            }
+        }
+    )}
+)}
+
+var resulttest;
+
+Promise.all([getEmployeeNames(),getStudentNames()]).then(function(results)
+{
+    console.log(results[0][0]);
+    console.log(results[1]);
+
+})
+
+getEmployeeNames()
+.then(function(results)
+{
+resulttest=results;
+return getStudentNames();
+})
+.then(function(results2)
+{
+    console.log(results2);
+return results2;
+})
+.then(function(results0){
+    console.log(results0);
+    console.log(resulttest);
+})
+.catch(function(err)
+{
+    console.log(err);
+})
+    
 // var newcon = {
 //     host: "localhost",
 //     user: "root",
@@ -143,6 +198,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/public')));
 var jQuery = require('jquery');
 // app.use(express.json());
+
+
+
+app.get('/new',function(req,res)
+{
+ getEmployeeNames()
+.then(function(results)
+{
+resulttest=results;
+return getStudentNames();
+})
+.then(function(results2)
+{
+    console.log(results2);
+return results2;
+})
+.then(function(results0){
+    console.log(results0);
+    console.log(resulttest);
+    res.render('pages/petrolpump',{'results0':results0,'resulttest':resulttest})
+})
+.catch(function(err)
+{
+    console.log(err);
+    res.render('pages/petrolpump',{'results0':err})
+
+})
+       
+
+})
 
 app.post('/getdetailtitlebymonth',function(req,res)
 {
@@ -507,13 +592,16 @@ app.post('/returnusername',function(req,res)
 app.post('/addtitle',function(req,res)
 {
 var title= [req.body.titlename,req.body.type];
+console.log("Title");
 var inserttitle= "INSERT INTO kagroups(katitle,type) values (?)";
 con.query(inserttitle,[title],function(err,result)
 {
 if(err) 
 {
-    console.log(err);
-    res.json({'msg':'शीर्षक पहिलयै छ'})
+    // console.log(err);
+    res.status(500).send({error:'समितिको नाम पहिल्यै छ'}); 
+
+    // res.json({'msg':'शीर्षक पहिलयै छ'})
 }
 else{
     res.json({'success':'शीर्षक राख्यो'})

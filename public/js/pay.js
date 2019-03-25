@@ -3,6 +3,7 @@
 
 function submittitles(e)
 {
+    e.preventDefault();
      var titlename= $('#titlename').val();
      var type=$('#titletype').val();
      alert(type);
@@ -10,6 +11,7 @@ function submittitles(e)
     $.ajax({
         url:'/addtitle',
         type:'post',
+        async:false,
         data:{
             titlename:titlename,
             type:type
@@ -17,11 +19,17 @@ function submittitles(e)
         success:function(data)
         {
             alert(data.msg);
+            window.location.reload();
             $('#closecreatetitle').click();
+        },
+        error:function(data)
+        {
+            alert("शीर्षक पहिल्यै छ");
         }
     })
 
 }
+
 
 
    
@@ -108,9 +116,11 @@ $('table tr td input').attr('list','kharcha');
             type: 'post',
             url: '/paymentsubmit',
             data: { o:o},
+            async:false,
             error: function(data) {
                 // var data=JSON.parse(data);
                 console.log(data.result);
+
             },
             success: function(data) {
                 console.log(data);
@@ -118,7 +128,8 @@ $('table tr td input').attr('list','kharcha');
                  // window.location.href="http://localhost:3000/pay";
 
                 //  For server
-                 window.location.href="http://buddha.ansunepal.com/pay";
+                    window.location.reload();
+                 // window.location.href="http://buddha.ansunepal.com/pay";
 
 
                 // $('button#resetpayment').click();
@@ -206,9 +217,18 @@ function submitaccount(event) {
         type: 'post',
         url: '/accountsubmit',
         data: { accountdataarray },
+        async:false,
         success: function(data) {
             console.log(data.result);
+            alert("उपशीर्षक जोडियो");
+                window.location.reload();
+
             // $("#closecreateaccount").click();
+        },
+        error:function(data)
+        {
+            alert("उपशीर्षक पहिल्यै छ ");
+
         }
     });
 

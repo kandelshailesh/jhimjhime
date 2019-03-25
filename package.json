@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "get-nepali-number": "^0.1.0",
+    "gulp-nodemon": "^2.4.2",
     "jquery": "^3.3.1",
     "mysql": "^2.16.0",
     "mysql-events": "0.0.11",
@@ -31,5 +32,4 @@
     "grunt-execute": "^0.2.2",
     "gulp": "^4.0.0"
   }
-
 }
