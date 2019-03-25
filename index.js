@@ -1,18 +1,18 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var nodemon = require('gulp-nodemon');
+// var gulp = require('gulp');
+// var browserSync = require('browser-sync');
+// var reload = browserSync.reload;
+// var nodemon = require('gulp-nodemon');
 
 
-gulp.task('browser-sync', gulp.series(nodemon, function() {
-    browserSync.init(null, {
-        proxy: "http://localhost:3000", // port of node server
-    });
-}));
+// gulp.task('browser-sync', gulp.series(nodemon, function() {
+//     browserSync.init(null, {
+//         proxy: "http://localhost:3000", // port of node server
+//     });
+// }));
 
-gulp.task('default', gulp.series(browserSync, function () {
-    gulp.watch(["./views/pages/*.ejs","./views/partials/*.ejs"], reload);
-}));
+// gulp.task('default', gulp.series(browserSync, function () {
+//     gulp.watch(["./views/pages/*.ejs","./views/partials/*.ejs"], reload);
+// }));
 
 
 
