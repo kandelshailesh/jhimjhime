@@ -41,7 +41,7 @@ for (var i = 1; i < 2; i++) {
      
 
       <td  class="col-md-6 p-0"><input list="aamdani"  name="subaccount" onkeydown="accounttype(event)" id="subaccount" type="text" class="form-control"  /></td>
-      <td  class="col-md-4 p-0"><input name="amount" id="amount"  type="text" pattern="[०-९]*" class="form-control"  /></td>
+      <td  class="col-md-4 p-0"><input name="amount" id="amount"  type="text" pattern="^[०-९\.]*$" class="form-control"  /></td>
       
     </tr>`)
 }

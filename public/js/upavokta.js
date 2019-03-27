@@ -49,6 +49,7 @@ function returnnepalinumber(value)
 {
 	return calendarFunctions.getNepaliNumber(value)
 }
+	
 	function createnew(e)
 	{
 	var i = parseInt(e.target.id.split('-')[1])+1;
@@ -74,15 +75,15 @@ var selectlocation=`<select onkeypress="addresschange(event)"  onchange="address
 				console.log(data);
 				console.log(data.locationlist);
 
-				for(j=0;j<data.postlist.length;j++)
+				for(j=0;j<data.locationlist.length;j++)
 				{
-		 selectlocation+=`<option value='${data.locationlist[j].id}'>${data.location[j].name}</option>`
+		 selectlocation+=`<option value='${data.locationlist[j].id}'>${data.locationlist[j].name}</option>`
 		}
 
 		selectlocation+='</select>'
 			
 
-    $('.upavoktatable').append(`<tr  class=" m-0  row text-center">
+    $('.upavoktatable').append(`<tr  class=" m-0  row text-center extraadded">
 			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
 			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
 			<td  class="col-md-3 p-0"><input style="text-align-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
@@ -209,16 +210,22 @@ $.ajax({
 	type:'post',
 	url:'usersubmit',
 	data:{userformObj:userformObj},
+	async:false,
+	error:function(data)
+	{
+		alert("उपभाेक्ता नं पहिल्यै छ");
+	},
 	success:function(data){
+		
+		alert("उपभाेक्ता जोडियो");
 		console.log(data.result);
 		console.log("Submitted");
 
 		$('#resetuserform').click();
-			$('.extraadded').remove();
+		$('.extraadded').remove();
+		
 		// $(".billprint").printArea({ mode: 'popup', popClose: true });
-
 	}
-
 });
 	
 	

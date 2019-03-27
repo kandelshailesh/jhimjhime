@@ -311,7 +311,7 @@ app.post('/ghumtikoshadddata', function(req, res) {
 
 
 app.get('/kaathdaura', function(req, res) {
-    var accountquery = "SELECT * from kagroups; SELECT * from paymenttable;select * from accountinformation;select * from title";
+    var accountquery = "SELECT * from kagroups; SELECT * from paymenttable;select * from accountinformation;select * from title;SELECT * from kaathnamelist";
     con.query(accountquery, function(err, results, fields) {
         // console.log(results[0]);
         // console.log(results[1]);
@@ -329,7 +329,7 @@ app.get('/kaathdaura', function(req, res) {
         // }
 
         console.log(transactionno);
-        res.render('pages/kaathdaura', { error: '', results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3] });
+        res.render('pages/kaathdaura', { error: '', results: results[0], transactionno: transactionno, accountinformation: results[2], titles: results[3],kaathname:results[4] });
     });
     // res.render('pages/kaathdaura');
 })
@@ -423,7 +423,7 @@ app.post('/ledger',function(req,res)
         {
         for(i=0;i<result[1].length;i++)
         {
-             if(result[1].type==='k')
+             if(result[1][i].type==='k')
             {
                 totalkharcha= totalkharcha+ Number(result[1][i].totalamount);
             }
@@ -823,18 +823,34 @@ app.get('/ghumtikosh', function(req, res) {
 
 app.get('/upavokta', function(req, res) {
 
-    res.render('pages/upavokta');
+var selectlist= "SELECT * from upavoktalocation";
+con.query(selectlist,function(err,result)
+{
+    console.log(result);
+    res.render('pages/upavokta',{'locationlist':result});
+})
+
+    
 });
 
 app.post('/usersubmit', function(req, res) {
 
     var userformdata = req.body.userformObj;
-    res.render('pages/upavokta');
+    // res.render('pages/upavokta');
     var insert1 = "INSERT INTO `upavokta`(`userid`,`fname`, `lname`, `address`, `sex`) VALUES ? ";
     con.query(insert1, [userformdata], function(err, result) {
         // console.log([paymentdata]);
-        if (err) throw err;
+        if (err) 
+        {
+        // console.log(err);
+        res.status(500).send({'err':err});
+        }
+        else
+        {
         console.log("Submitted");
+        res.status(200).send({'message':'message'})
+        }
+
         // console.log("Number of records inserted: " + result.affectedRows);
         // res.json({'result':'Submitted'});
     });
@@ -1569,9 +1585,15 @@ app.post('/padhadhikaarisubmit', function(req, res) {
     var insert1 = "INSERT INTO `padhadhikari`(`upavoktaname`, `post`, `samiti`, `startdate`, `samitino`) VALUES ? ";
     con.query(insert1, [padhadhikaariformdata], function(err, result) {
         // console.log([paymentdata]);
-        if (err) throw err;
+        if (err)
+        {
+            res.status(500).send({'err':'Error'});
+        } 
+        else
+        {
         console.log("Submitted");
         res.json({'result':result})
+    }
         // console.log("Number of records inserted: " + result.affectedRows);
         // res.json({'result':'Submitted'});
     });
@@ -2369,6 +2391,28 @@ app.post('/billsubmit', (req, res) => {
     });
 
     res.json({ 'result': 'Submitted' });
+})
+
+app.post('/createkaathname',function(req,res)
+{
+  console.log(req.body);
+  var halldetails= [req.body.formobj.kaathname];
+  // console.log(unitdetails);
+  var insertintohallhall= "INSERT INTO `kaathnamelist`(`kaathname`) VALUES ?";
+  con.query(insertintohallhall,[[[halldetails]]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
 })
 
 

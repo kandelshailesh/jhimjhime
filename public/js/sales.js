@@ -473,8 +473,8 @@ for( var i=1;i<2;i++)
       <td class="col-md-1 p-0"><input class="form-control text-center" name="gullino" id="gullino-${i}" type="text" /></td>
       <td   class="col-md-4 p-0"><input class="form-control text-center" name="kaathname" id="kaathname-${i}" type="text" /></td>
       
-      <td  class="col-md-2 p-0"><input  name="quantity" id="quantity-${i}" type="text" class="form-control text-center"  /></td>
-      <td   class="col-md-2 p-0"><input name="per" id="per-${i}"  type="text" class="form-control text-center"  value='०' /></td>
+      <td  class="col-md-2 p-0"><input  name="quantity" pattern="^[०-९\.]*$" id="quantity-${i}" type="text" class="form-control text-center"  /></td>
+      <td   class="col-md-2 p-0"><input name="per" pattern="^[०-९\.]*$" id="per-${i}"  type="text" class="form-control text-center"  value='०' /></td>
       <td   class="col-md-2 p-0"><input  name="amount" onkeydown="createnewitem(event)" id="amount-${i}"  value='०' class="form-control text-center"   /></td>
     </tr>`)
 
@@ -622,8 +622,8 @@ function createnewitem(e)
       <td class="col-md-1 p-0"><input class="form-control text-center" name="gullino" id="gullino-${i}" type="text" /></td>
       <td   class="col-md-4 p-0"><input class="form-control text-center" name="kaathname" id="kaathname-${i}" type="text" /></td>
       
-      <td  class="col-md-2 p-0"><input  name="quantity" id="quantity-${i}" type="text" class="form-control text-center"  /></td>
-      <td   class="col-md-2 p-0"><input name="per" id="per-${i}" class="form-control text-center" /></td>
+      <td  class="col-md-2 p-0"><input pattern="^[०-९\.]*$" name="quantity" id="quantity-${i}" type="text" class="form-control text-center"  /></td>
+      <td   class="col-md-2 p-0"><input pattern="^[०-९\.]*$" name="per" id="per-${i}" class="form-control text-center" /></td>
       <td   class="col-md-2 p-0"><input readonly name="amount" onkeydown="createnewitem(event)" id="amount-${i}"  class="form-control text-center"   /></td>
     </tr>`)
  

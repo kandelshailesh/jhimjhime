@@ -31,10 +31,10 @@
                 <div class="col-md-8 mt-4 ">
                     <select style="text-align-last:center; text-align: center;" class='form-control d-inline w-25 ml-4 ' id='upavoktakhojaddress' name='upavoktakhojaddress'>
                         <option value='0'>सबै</option>
-                        <option value='1'>झिमझिमिया गाउटोल</option>
-                        <option value='2'>काेटियाथान टोल</option>
-                        <option value='3'>शान्ति टोल</option>
-                        <option value='4'>बेम्तहनी टोल</option>
+                <% locationlist.forEach(function(result){ %>
+                        <option value="<%= result.id %>"><%= result.name %></option>
+                  
+                        <% }) %>
                     </select><select style="text-align-last:center; text-align: center;" name='upavoktakhojsex' class='form-control ml-4 d-inline w-25' id='upavoktakhojsex'>
                         <option value='2'>सबै</option>
                         <option value='0'>पुरुष</option>

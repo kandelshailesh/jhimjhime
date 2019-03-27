@@ -1,43 +1,11 @@
 
 
-<datalist id="kaathname">
-    <option>सालकाठ-A</option>
-    <option>सालकाठ-B</option>
-    <option>
-        सालकाठ-C
-    </option>
-    <option>
-        असना-A
-    </option>
-    <option>
-         असना-B
-    </option>
-    <option>
-         बाँझी
-    </option>
-    <option>
-        कर्मा-A
-    </option>
-    <option>
-         कर्मा-B
-    </option>
-    <option>
-        कुसुम
-    </option>
-<option>
-      माैवा
-</option>
-<option>
-        जिङगड 
-</option>
-<option>
-    
-        भलायो
-</option>       
-     <option>
-        बोडढायरो
-         
-     </option>   
+<datalist id="kaathnamelist">
+     <% kaathname.forEach(function(result) { %>
+ 
+    <option><%= result.kaathname %>
+                              
+<%  }); %>
 </datalist>
 <datalist id="unit" >
 <option>

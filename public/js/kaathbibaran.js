@@ -4,7 +4,7 @@ for (var i = 1; i < 2; i++) {
       <td id="sn" class="col-md-1">${i}</td>
       <td   class="col-md-1 p-0"><input  class="form-control" name="gullino" id="gullino-${i}" type="text"  oninput="javascript:oninputdctype(event);" />
 
-      <td  class="col-md-3 p-0"><input autocomplete="off" list="kaathname" name="kaathname" onkeypress="accounttype(event)" id="kaathname-${i}" type="text" class="form-control text-center"  /></td>
+      <td  class="col-md-3 p-0"><input autocomplete="off" list="kaathnamelist" name="kaathname" onkeypress="accounttype(event)" id="kaathname-${i}" type="text" class="form-control text-center"  /></td>
 
        <td   class="col-md-3 p-0"><input  list="type" autocomplete="off" name="collectiontype" id="collectiontype-${i}"  class="form-control" /></td>
 
@@ -35,7 +35,7 @@ function createnew(e)
       <td id="sn" class="col-md-1">${i}</td>
       <td   class="col-md-1 p-0"><input  class="form-control" name="gullino" id="gullino-${i}" type="text"  oninput="javascript:oninputdctype(event);" />
 
-      <td  class="col-md-3 p-0"><input autocomplete="off" list="kaathname" name="kaathname" onkeypress="accounttype(event)" id="kaathname-${i}" type="text" class="form-control text-center"  /></td>
+      <td  class="col-md-3 p-0"><input autocomplete="off" list="kaathnamelist" name="kaathname" onkeypress="accounttype(event)" id="kaathname-${i}" type="text" class="form-control text-center"  /></td>
 
        <td   class="col-md-3 p-0"><input autocomplete="off"  list="type" name="collectiontype" id="collectiontype-${i}"  class="form-control" /></td>
 

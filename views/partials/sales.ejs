@@ -7,9 +7,9 @@
         <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle1">बिक्री</label>
 <label style="font-size:20px; width:100px; text-align: center;" id="billnolabel">बिल नं</label>
 
- <input id="billno" name="billno" readonly style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline border-0  " autocomplete="off" />
+ <input id="billno" name="billno" readonly style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline border-0" autocomplete="off" />
 
-         <input id="salesdate" required name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline float-right " autocomplete="off" />
+         <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline float-right " autocomplete="off" required >
         <label class='salesdateclass text-dark d-inline float-right'>मिति:</label>
         <br>
         <label style="font-size:15px;">बिक्री प्रकार</label>
@@ -47,9 +47,9 @@
     <p class="font-weight-bold"> दाउरा बिक्री</p>
     <div class="row">
         <div class="col-md-12 ">
-            <input type="text" class="form-control  rounded-0 text-center d-inline w-25" placeholder="परिमाण" name="daauraquantity" id="quantity-0">
-            <input type="text" class="form-control rounded-0 text-center d-inline w-25" placeholder="मूल्य/चट्टा" id="per-0" name="daauraper">
-            <input type="text" id="amount-0" class="form-control text-center rounded-0 d-inline w-25" placeholder="जम्मा
+            <input type="text" class="form-control  rounded-0 text-center d-inline w-25" placeholder="परिमाण" name="daauraquantity" id="quantity-0" pattern="^[०-९\.]*$">
+            <input pattern="^[०-९\.]*$"  type="text" class="form-control rounded-0 text-center d-inline w-25" placeholder="मूल्य/चट्टा" id="per-0" name="daauraper">
+            <input pattern="^[०-९\.]*$"  type="text" id="amount-0" class="form-control text-center rounded-0 d-inline w-25" placeholder="जम्मा
 " name="daauratotal" value="०">
         </div>
     </div>

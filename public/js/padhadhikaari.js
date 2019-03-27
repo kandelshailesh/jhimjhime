@@ -309,8 +309,9 @@ for(i=0;i<padhadhikaariname.length;i++)
 	}
 $.ajax({
 	type:'post',
-	url:'padhadhikaarisubmit',
+	url:'/padhadhikaarisubmit',
 	data:{padhadhikaariformObj:padhadhikaariformObj},
+	async:false,
 	success:function(data){
 		console.log(data.result);
 		console.log("Submitted");
@@ -382,12 +383,12 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
     	{
     	var startdate=new Date(`${result[0]['startdate']}`);
     	var enddate= new Date(`${data.enddate}`);
-    	enddate.setDate(enddate-1)
-
+    	enddate.setDate(enddate.getDate()-1)
+    	enddate=`${enddate.getFullYear()}-${enddate.getMonth()}-${enddate.getDate()}`;
         console.table(result);
     	$('.appendsearch').html('');
     	$('.appendsearch').append(`
-    		<div class="text-center"><label  class="ml-4 samitinokhoj"> समिति नं</label> <input type="text" style="height:25px !important; width:30px !important;" id="samitino" value='${result[0]['samitino']}' autofocus class="d-inline ml-2 border-0 bg-white" disabled><label class="ml-1 " style="font-size:15px;"> सुरु मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${result[0]['startdate']}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled><label style="font-size:15px;"> अन्तिम मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${data.enddate}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled></div>`);
+    		<div class="text-center"><label  class="ml-4 samitinokhoj"> समिति नं</label> <input type="text" style="height:25px !important; width:30px !important;" id="samitino" value='${result[0]['samitino']}' autofocus class="d-inline ml-2 border-0 bg-white" disabled><label class="ml-1 " style="font-size:15px;"> सुरु मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${result[0]['startdate']}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled><label style="font-size:15px;"> अन्तिम मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${enddate}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled></div>`);
 
     	$('.appendsearch').append(`<table border="1" class=" padhadhikaaritablekhoj  table-sm">
                         <tr class=" m-0  row text-center">
