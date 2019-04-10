@@ -1,4 +1,4 @@
-<style type="text/css">
+/* <style type="text/css"> */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -75,12 +75,11 @@ div::-webkit-scrollbar-thumb {
     background: #eee
 }​
 
-@media screen
+/* @media screen
 {
   * 
   {
     display:none !important;
   }
 
-}
-</style>
+} */

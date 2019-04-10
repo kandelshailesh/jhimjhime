@@ -8,7 +8,7 @@
 	font-size: 75%;
 }
 #ui-datepicker-div {
-	z-index: 100;
+	z-index: 500;
 }
 .ui-datepicker-inline {
 	float: left;

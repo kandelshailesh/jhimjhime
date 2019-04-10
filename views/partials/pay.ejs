@@ -26,24 +26,25 @@
                 <div class="col-12 mt-2 billdata">
                     <br />
                     <input style="font-size:20px; width:150px; text-align: center;  background-color:red;" class="border-0" name="transactiontitle" id="transactiontitle" value="आम्दानी" readonly>
-                    <input  id='datemodify' required name="datemodify" class='ml-1 text-center float-right d-inline' autocomplete="off">
+                    
+                    <input id='datemodify' style="font-size: 15px; border:1px solid lightblue !important; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" required name="datemodify" class='ml-1 text-center float-right d-inline' autocomplete="off">
                     <h6 class='dates text-dark mt-1 d-inline float-right mr-2'>मिति:</h6>
                 </div>
             </div>
             
                 <div style="max-height: 400px;" class="table-responsive mt-2">
                     <table class="paymentheader table table-bordered  paymenttable">
-                        <tr class=" m-0 bg-dark text-white row text-center">
-                            <th class="col-md-2">क्रम</th>
-                            <th class="col-md-6">उपशीर्षक</th>
-                            <th class="col-md-4 ">मूल्य</th>
+                        <tr style="font-size: 30px !important; border:1px solid lightblue !important;   box-shadow: 2px 2px lightblue !important;" class=" m-0  bg-primary row text-center">
+                            <th style="font-size: 20px !important; " class="col-md-2">क्रम</th>
+                            <th style="font-size: 20px !important; " class="col-md-6">उपशीर्षक</th>
+                            <th style="font-size: 20px !important; " class="col-md-4 ">मूल्य</th>
                         </tr>
                     </table>
                 </div>
                
                 <div class="row">
                     <div class="col-md-10">
-                        <textarea name="narrationbox" id="narrationbox" rows="2" cols="70"></textarea>
+                        <textarea placeholder="सारांश...." style="font-size: 15px; border:1px solid lightblue !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" name="narrationbox" id="narrationbox" rows="2" cols="70"></textarea>
                     </div>
                     <button type="submit" class="btn ml-1 h-25 col-md-1 btn-primary"><i class="fa fa-paper-plane"></i>
                     </button>
@@ -202,34 +203,22 @@
         <% }); %>
     </datalist>
     <div class="col-md-2 mt-3">
-        <nav class="nav flex-column">
-           <!--  <a class="nav-link" style="border:1px solid black;" id="report" href="#">रिपोर्ट</a>
-            <ul style="display:none;" class="list-group reportlist mt-1 ml-2 justify-contents-center w-75 mb-2 p-0">
-                <li style="height:35px;" class="list-group-item p-1"><a href="daybookreturn">Day Book</a></li>
-                <li style="height:35px;" class="list-group-item p-1"><a href="trialbalance">Trial Balance</a></li>
-                <li style="height:35px;" class="list-group-item p-1"><a href="trialbalance">Ledger</a></li>
-                <li style="height:35px;" class="list-group-item p-1"><a href="trialbalance">Balance Sheet</a></li>
-            </ul> -->
-             <a id="hello" style="border:1px solid black;" class="nav-link" data-toggle="modal" data-target="#subtitle" accesskey="c">
+        <nav class="nav flex-column" style="box-shadow:4px 4px green; border:1px solid green; color:red;">
+         
+             <a id="hello" style="border:1px solid green;" class="nav-link" data-toggle="modal" data-target="#subtitle" accesskey="c">
                 शीर्षक बनाउनुहाेस
             </a>
-            <a id="hello" style="border:1px solid black;" class="nav-link" data-toggle="modal" data-target="#myModals" accesskey="h">
+            <a id="hello" style="border:1px solid green;" class="nav-link" data-toggle="modal" data-target="#myModals" accesskey="h">
                 आम्दानीको उपशीर्षक बनाउनुहाेस 
             </a>
-            <a id="hello" style="border:1px solid black;" class="nav-link" data-toggle="modal" data-target="#myModal" accesskey="h">
+            <a id="hello" style="border:1px solid green;" class="nav-link" data-toggle="modal" data-target="#myModal" accesskey="h">
                 खर्चको उपशीर्षक बनाउनुहाेस
             </a>
            
-            <%/* <a   style="border:1px solid black;" class="nav-link" data-toggle="modal" data-target="#contraentry" accesskey="c" id="contraentrybutton" href="#">
-  Create Contra (Alt+c)
-</a> */%>
-            <a class="nav-link" style="border:1px solid black;" onclick="javascript:aamdaniform();" href="#">आम्दानी</a>
-            <a class="nav-link" style="border:1px solid black;" onclick="javascript:kharchaform();" href="#">खर्च</a>
-          <!--   <a class="nav-link" style="border:1px solid black;" onclick="javascript:receiptform();" href="#">प्राप्ति </a>
-            <a onclick="javascript:journalform(event);" style="border:1px solid black;" class="nav-link" href="#"> जर्नल</a> -->
-          <!--   <a onclick="javascript:salesform(event);" style="border:1px solid black;" class="nav-link" href="#">बिक्री</a>
-            <a data-target="#kaathbibaranform" id="kaathformclick" data-toggle="modal" style="border:1px solid black;" class="nav-link">काठ विवरण</a>
-            <a onclick="javascript:purchaseform(event);" style="border:1px solid black;" class="nav-link" href="#"> खरीद</a> -->
+            <a class="nav-link" style="color:red;border:1px solid green;" onclick="javascript:aamdaniform();" href="#">आम्दानी</a>
+            <a class="nav-link" style="color:red;border:1px solid green;" onclick="javascript:kharchaform();" href="#">खर्च</a>
+    
+            
         </nav>
     </div>
     <p id="transactionid">

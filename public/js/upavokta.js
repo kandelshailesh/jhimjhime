@@ -22,9 +22,9 @@ var selectlocationoption;
 			
 
     $('.upavoktatable').append(`<tr  class=" m-0  row text-center">
-			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
-			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><input style="text-alignv-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
+			<td id="sn"  class="col-md-2 p-0"><input  autocomplete="off" minlength=1 oninvalid="this.setCustomValidity('उपभाेक्ता नं राख्नुहोस');"  oninput="this.setCustomValidity('');" required type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
+			<td   class="col-md-3 p-0"><input oninvalid="this.setCustomValidity('उपभाेक्ताको नाम राख्नुहोस');"  oninput="this.setCustomValidity('');" required id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /></td>
+			<td  class="col-md-2 p-0"><input oninvalid="this.setCustomValidity('उपभाेक्ताको थर राख्नुहोस');"  oninput="this.setCustomValidity('');" required style="text-alignv-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
 			<td  class="col-md-3 p-0">${selectlocation}</td>
 			<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>
@@ -33,6 +33,35 @@ var selectlocationoption;
 		</tr>`);
 }
 })
+
+
+
+$(document).on('keyup','[id^=upavoktaid-]',function(event)
+{
+//   if(event.preventDefault) {
+//     event.preventDefault();
+// }
+// event.preventDefault();
+
+console.log("Pir");
+var targetid= event.target.id.split('-')[1];
+var userid= returnnumber(event.target.value);
+console.log("Pressed key is "+ event.keyCode);
+// $("#useriddummy-"+targetid).val(calendarFunctions.getNumberByNepaliNumber($("#userid-"+targetid).val()));
+// console.log($("#useriddummy-"+targetid).val());
+     if(event.keyCode === 46 && $('table.upavoktatable tr').length >2)
+    {
+        console.log("HEllo");
+        console.log($(`table .row-${targetid}`))
+        console.log("Targetid is"+targetid);
+        $(`table tr.row-${targetid}`).remove();
+        // $(`table .row-${targetid-1} #price-${targetid-1}`).focus();
+        // checktotaldc();
+    }
+ 
+
+
+});
 
 
 // <td class="col-md-1 p-0"><button type="button" id="itemdel-${i}" class="btn btn-sm btn-danger">
@@ -83,15 +112,14 @@ var selectlocation=`<select onkeypress="addresschange(event)"  onchange="address
 		selectlocation+='</select>'
 			
 
-    $('.upavoktatable').append(`<tr  class=" m-0  row text-center extraadded">
-			<td id="sn"  class="col-md-1 p-0"><input type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
-			<td   class="col-md-3 p-0"><input id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-3 p-0"><input style="text-align-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
-			<td  class="col-md-3 p-0">${selectlocation}</td>
-			<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
-            <option value='1'>महिला</option>
-          </select></td>
-		
+    $('.upavoktatable').append(`<tr  class=" m-0  row-${i} row text-center extraadded">
+		<td id="sn"  class="col-md-2 p-0"><input  autocomplete="off" minlength=1 oninvalid="this.setCustomValidity('उपभाेक्ता नं राख्नुहोस');"  oninput="this.setCustomValidity('');" required type="text" class=" form-control w-100 text-center" id="upavoktaid-${i}"></td>
+		<td   class="col-md-3 p-0"><input oninvalid="this.setCustomValidity('उपभाेक्ताको नाम राख्नुहोस');"  oninput="this.setCustomValidity('');" required id="upavoktaname-${i}" name="upavoktaname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /></td>
+		<td  class="col-md-2 p-0"><input oninvalid="this.setCustomValidity('उपभाेक्ताको थर राख्नुहोस');"  oninput="this.setCustomValidity('');" required style="text-alignv-last:center;" type="text" name="upavoktacaste-${i}"  id="upavoktacaste-${i}"   class="form-control" /></td>
+		<td  class="col-md-3 p-0">${selectlocation}</td>
+		<td   class="col-md-2 p-0"><select onkeypress="createnew(event)" id="upavoktasex-${i}" name="upavoktasex-${i}"  type="text" style="text-align-last:center; text-align: center; " class="form-control"> <option value='0'>पुरुष</option>
+					<option value='1'>महिला</option>
+				</select></td>
 		</tr>`);
 }
 })
@@ -105,10 +133,10 @@ var selectlocation=`<select onkeypress="addresschange(event)"  onchange="address
 }
 
 
-function typechange(event)
-{
-	$("#rthno").focus();
-}
+// function typechange(event)
+// {
+// 	$("#rthno").focus();
+// }
 function addresschange(event)
 {
 	event.preventDefault();
@@ -146,10 +174,7 @@ $('.upavoktaaddform').on('keydown', 'input', function(e) {
             if (prev.length) {
                 prev.focus();
             } 
-            else
-            {
-            	$('#billsubmit').click();
-            }
+           
         }
     } else
     if (e.keyCode == 13) {
@@ -166,12 +191,7 @@ $('.upavoktaaddform').on('keydown', 'input', function(e) {
             next.focus();
             next.select();
         } 
-        else
-        {
-           $('#billsubmit').click();
-            	
-
-        }
+      
         return false;
     }
 });
@@ -315,7 +335,7 @@ var addresscollectionreverse={};
 
 function returnaddressvalue(value)
 {
-alert("Post");
+// alert("Post");
 
 $.ajax({
 		url:'/allselectlist',
@@ -398,36 +418,36 @@ console.log(upavoktakhojformObj);
     	$('.appendsearch').append(`<p class="text-center text-danger mt-2"> जम्मा रेकर्ड ${returnnepalinumber(result.length)} </p> <br/>`);
 
 
-    	$('.appendsearch').append(`<table border="1" class=" upavoktatablekhoj  table-sm">
-                        <tr class=" m-0  row text-center">
+    	$('.appendsearch').append(`<table  class="table  upavoktatablekhoj  ">
+                        <tr class=" m-0  row text-center bg-primary">
                                                
-                            <th class="col-md-1">उपभाेक्ता नं</th>
-                            <th class="col-md-3">नाम</th>
-                            <th class="col-md-2">थर </th>
-                            <th class="col-md-2">ठेगाना</th>
-                            <th class="col-md-2">लिङ्ग</th>
-                            <th class="col-md-2"></th>
+                            <th style="font-size:20px !important;" class="col-md-2">उपभाेक्ता नं</th>
+                            <th style="font-size:20px !important;" class="col-md-3">नाम</th>
+                            <th style="font-size:20px !important;" class="col-md-2">थर </th>
+                            <th style="font-size:20px !important;" class="col-md-2">ठेगाना</th>
+                            <th style="font-size:20px !important;" class="col-md-1">लिङ्ग</th>
+                            <th  style="font-size:20px !important;" class="col-md-2"></th>
                         </tr>`);
                   
     		for(var i=0;i<result.length;i++)
     		{
     			$('.upavoktatablekhoj').append(`<tr id="user-${result[i].userid}" class=" m-0 extraadded  row text-center">
-			<td class="col-md-1">${returnnepalinumber(result[i].userid)}</td>
+			<td class="col-md-2">${returnnepalinumber(result[i].userid)}</td>
 			<td   class="col-md-3" id='fnamekhoj-${result[i].userid}'>${result[i].fname}</td>
 			<td  class="col-md-2 " id='lnamekhoj-${result[i].userid}'>${result[i].lname}</td>
 			<td class="col-md-2 p-0 " >
-			<input class='w-100' id='addresskhoj-${result[i].userid}' disabled  value='${returnaddress(result[i].address)}' >
+			<input class='w-100 border text-center border-0' id='addresskhoj-${result[i].userid}' disabled  value='${returnaddress(result[i].address)}' >
 
 			<select onkeypress="addresschange(event)"  onchange="addresschange(event)"  style="text-align-last:center; display:none; text-align: center; " name="upavoktaaddress-${result[i].userid}" id="upavoktaaddress-${result[i].userid}" class="w-100" >
 			${selectlocationoption}
         </select></td>
-			<td class="col-md-2 p-0 ">
-			<input class='w-100' id='sexkhoj-${result[i].userid}' disabled value=${returnsex(result[i].sex)}>
+			<td class="col-md-1 p-0 ">
+			<input class='w-100 border text-center border-0' id='sexkhoj-${result[i].userid}' disabled value=${returnsex(result[i].sex)}>
 
 			<select  id="upavoktasex-${result[i].userid}" name="upavoktasex-${result[i].userid}"  type="text" style="text-align-last:center; text-align: center; display:none; " class="form-control"> <option value='0'>पुरुष</option>
             <option value='1'>महिला</option>
           </select></td>
-			<td class="col-md-2"><button  onclick="deluser(event)" class="deletebutton-${result[i].userid} border-0  bg-danger btn-sm" id="${result[i].userid}"><i class="fa text-white fa-trash"></i></button><button class="modifybutton-${result[i].userid}  bg-success btn-sm ml-1"  onclick="modifyuser(event)" id="${result[i].userid}"><i class="fa fa-edit text-white"></i></button><a href="#" class="modifysubmitbutton-${result[i].userid} btn-sm border-0 bg-white" style="display:none;" onclick="javascript:modifyusersubmit(event)" id="${result[i].userid}"><i class="fa fa-paper-plane text-success"></i></a><button style="display:none;" onclick="cancel(event)" class="cancel-${result[i].userid} ml-2 border-0 bg-white" id="${result[i].userid}"><i class="text-danger fa fa-times"></i></button></td>
+			<td class="col-md-2 p-0 m-0"><button  onclick="deluser(event)" class="deletebutton-${result[i].userid} border-0  btn-danger btn" id="${result[i].userid}"><i class="fa text-white fa-trash"></i></button><button class="modifybutton-${result[i].userid}  btn-success btn ml-1"  onclick="modifyuser(event)" id="${result[i].userid}"><i class="fa fa-edit text-white"></i></button><a href="#" class="modifysubmitbutton-${result[i].userid} btn border-0 btn-success" style="display:none;" onclick="javascript:modifyusersubmit(event)" id="${result[i].userid}"><i class="fa fa-paper-plane text-white"></i></a><button style="display:none;" onclick="cancel(event)" class="cancel-${result[i].userid} ml-2 border-0 btn btn-danger" id="${result[i].userid}"><i class="text-white fa fa-times"></i></button></td>
 			</tr>`);
     		}
 
@@ -437,7 +457,7 @@ console.log(upavoktakhojformObj);
     	{ 
     		$('.appendsearch').html('');
 
-    		$('.appendsearch').append(`<p class="text-center">डाटा उपलब्ध भएन</p>`);
+    		$('.appendsearch').append(`<p class="text-center text-danger">डाटा उपलब्ध भएन</p>`);
     	}
     }
    })
@@ -617,3 +637,57 @@ $.ajax({
 	// e.preventDefault();
 
 })
+
+
+$('#renewmembershipModal').on('shown.bs.modal', function (e) {
+	// do something...
+	$(this).find('input').get(0).focus();
+
+  })
+  
+
+  $('form.renewmemberships').on('keyup', 'input', function(e) {
+	e.preventDefault();
+  var self = $(this),
+	  form = self.parents('form:eq(0)'),
+	  focusable, next, prev;
+  console.log("PRessed n");
+  if (e.shiftKey) {
+	  if (e.keyCode == 13) {
+		  e.preventDefault();
+		  focusable = form.find('input,a,select,button,textarea').filter(':enabled');
+		  prev = focusable.eq(focusable.index(this) - 1);
+
+		  if (prev.length) {
+			  prev.focus();
+		  } else {
+			  form.submit();
+		  }
+	  }
+	  return false;
+  } 
+else
+  if (e.keyCode == 13) {
+	  e.preventDefault();
+	//   $('[id^=accountlist]').html('');
+
+	  focusable = form.find('input,a,select,button,textarea').filter(':enabled');
+	  next = focusable.eq(focusable.index(this) + 1);
+	  if (next.length) {
+		  next.focus();
+	  } else {
+		  form.submit();
+	  }
+	  return false;
+  }
+})
+
+
+var gc = $.calendars.instance('nepali', 'ne');
+var currentdate = gc.newDate();
+var currenttime = new Date();
+var currenttime = currenttime.toLocaleTimeString();
+
+// $('.dates').append(`<input  id='datemodify' class='ml-1 border-0 d-inline' value=${currentdate}>`);
+// $('.times').append("<h6 class='timeupdate ml-1 d-inline'>" + currenttime + "</h6>");
+$('#navikarandate').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});

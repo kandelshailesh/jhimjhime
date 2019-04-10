@@ -37,11 +37,11 @@ function submittitles(e)
 for (var i = 1; i < 2; i++) {
 
     $('.paymenttable').append(`<tr  class=" m-0 row row-${i} text-center">
-      <td id="sn" class="col-md-2 p-1  ">${i}</td>
+      <td id="sn" style="font-size: 15px; border:1px solid lightblue !important; height:40px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" class="col-md-2 p-2  ">${i}</td>
      
 
-      <td  class="col-md-6 p-0"><input autocomplete="off" list="aamdani"  name="subaccount" onkeydown="accounttype(event)" id="subaccount" type="text" class="form-control"  /></td>
-      <td  class="col-md-4 p-0"><input name="amount" id="amount"  type="text" pattern="^[०-९\.]*$" class="form-control"  /></td>
+      <td  class="col-md-6 p-0"><input autocomplete="off" list="aamdani"  name="subaccount" style="font-size: 15px; border:1px solid lightblue !important; height:40px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" onkeydown="accounttype(event)" id="subaccount" type="text" class="form-control font-weight-bold text-center"  /></td>
+      <td  class="col-md-4 p-0"><input style="font-size: 15px; border:1px solid lightblue !important; height:40px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" name="amount" id="amount"  type="text" pattern="^[०-९\.]*$" class="form-control font-weight-bold text-center"  /></td>
       
     </tr>`)
 }
@@ -245,31 +245,6 @@ function submitaccounts(event) {
         accountdataarray.push(this.value);
            
        }); 
-    // console.log(accountdata);
-    // var accountdataarray = [];
-    // var previousyeardate = $("#previousyear").val().split('-');
-    // var converteddate = '';
-    // for (var i = 0; i < 3; i++) {
-    //     if (i < 2) {
-    //         // console.log(calendarFunctions.getNumberByNepaliNumber("१२५"));
-    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]) + '-';
-    //     } else {
-    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]);
-    //     }
-    //     console.log(converteddate);
-
-    // }
-    // for (i = 0; i < accountdata.length; i++) {
-    //     if (accountdata[i]['value'] === "") {
-    //         accountdata[i]['value'] = 0;
-    //         console.log(accountdata[i]);
-    //     }
-    //     if (accountdata[i]['name'] == 'previousyear') {
-    //         accountdata[i]['value'] = converteddate;
-    //         console.log(accountdata[i]);
-    //     }
-    //     accountdataarray.push(accountdata[i].value);
-    // }
 
     console.log(accountdata);
     console.log(accountdataarray);

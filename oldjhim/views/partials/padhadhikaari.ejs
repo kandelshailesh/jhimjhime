@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="list-group ">
+            <a class="list-group-item padhadhikaariadd padhadhikaariform-1" id="padhadhikaariform-1">पदाधिकारी थप</a>
+            <a class="list-group-item padhadhikaarikhoj padhadhikaariform-2" id="padhadhikaariform-2">पदाधिकारी खाेज</a>
+
+        
+            <a data-toggle="modal" data-target="#titleModal" class="list-group-item padhadhikaarititle " >समिति थप्नुहोस</a>
+            <a  data-toggle="modal" data-target="#postModal" class="list-group-item padhadhikaaripost">पद थप्नुहोस</a>
+
+         
+        </div>
+    </div>
+    <div class="col-md-10 ">
+
+        <form class="padhadhikaariaddform" action="" onkeypress="return event.keyCode != 13;">
+        
+
+
+            <div class="row padhadhikaariformshow-1 mt-4">
+
+        <label  class="ml-4"> समिति नं</label> <input type="text" style="height:25px !important; text-align:center;" id="samitino" autofocus class="d-inline ml-2 ">
+                <label class="ml-4"> सुरु मिति</label> <input type="text" style="height:25px !important;" autocomplete="off" id="startdate" class="d-inline ml-2">
+            
+                <div class="col-md-8">
+                    
+                    <table class="table  padhadhikaaritable  table-sm">
+                        <tr class=" m-0  row text-center">
+                            <th class="col-md-2"></th>
+                            <th class="col-md-4">नाम</th>
+                            <th class="col-md-3">पद</th>
+                            <th class="col-md-3">समिति</th> 
+                
+                        </tr>
+                    </table>
+                    <button type='reset' id="resetpadhadhikaariaddform" class='btn d-none  mt-2 btn-danger '>रद्द गर्नुहाेस</button><button type='submit' class=' ml-1 mt-2 btn btn-primary float-right'>जाेड्नुहाेस</button>
+                </div>
+            </div>
+                 
+          
+        </form>
+      <form class='padhadhikaarikhojform mt-0 '>
+    <div class='padhadhikaarikhoj padhadhikaariformshow-2  d-none  row '>
+      <div class="col-md-8 text-center">
+    	<label class="ml-4"> समिति नं</label> <input id="samitino1"   class="d-inline ml-2 text-center">
+
+      
+        <a class='btn ml-2 btn-outline-primary col-md-1 padhadhikaarikhojbutton' >खाेज</a>
+    </div>
+    <div class="col-md-8 mt-2 appendsearch">
+    </div>
+</div>
+
+</form>
+    </div>
+</div>

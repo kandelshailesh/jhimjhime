@@ -31,12 +31,9 @@
 		samitititlelist+='</select>'
 		$('.padhadhikaaritable').append(`<tr  class=" m-0  row text-center">
 			<td id="sn" class="col-md-2">${i}</td>
-			<td   class="col-md-4 p-0"><input id="padhadhikaariname-${i}" name="padhadhikaariname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
+			<td   class="col-md-4 p-0"><input required id="padhadhikaariname-${i}" name="padhadhikaariname-${i}" style="text-align-last:center;" type="text" class="form-control" autocomplete="off" /></td>
 			<td  class="col-md-3 p-0">${samitipostlist}</td>
-			<td  class="col-md-3 p-0">
-			${samitititlelist}</td>
-		
-		
+			<td  class="col-md-3 p-0">${samitititlelist}</td>
 		</tr>`);
 
 		}
@@ -58,7 +55,7 @@ var post={};
 
 function returnpost(value)
 {
-	alert("Post");
+	// alert("Post");
 
 $.ajax({
 		url:'/allselectlist',
@@ -103,7 +100,7 @@ return post[value];
 function returnsamiti(value)
 {
 
-alert("Samiti");
+// alert("Samiti");
 var title={};
 $.ajax({
 		url:'/allselectlist',
@@ -267,12 +264,7 @@ $('.padhadhikaariaddform').on('keydown', 'input', function(e) {
             next.focus();
             next.select();
         } 
-        else
-        {
-           $('#billsubmit').click();
-            	
-
-        }
+       
         return false;
     }
 });
@@ -367,7 +359,7 @@ $("[id^=padhadhikaariform]").on('click',function(e)
 $('.padhadhikaarikhojbutton').on('click',function(e)
 {
 	var samitino= $("#samitino1").val();
-	alert(samitino);
+	// alert(samitino);
     if(samitino!==null)
     {
    $.ajax({
@@ -388,16 +380,16 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
         console.table(result);
     	$('.appendsearch').html('');
     	$('.appendsearch').append(`
-    		<div class="text-center"><label  class="ml-4 samitinokhoj"> समिति नं</label> <input type="text" style="height:25px !important; width:30px !important;" id="samitino" value='${result[0]['samitino']}' autofocus class="d-inline ml-2 border-0 bg-white" disabled><label class="ml-1 " style="font-size:15px;"> सुरु मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${result[0]['startdate']}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled><label style="font-size:15px;"> अन्तिम मिति</label> <input type="text" style="height:25px !important;" id="startdate" value='${enddate}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled></div>`);
+			<div class="text-center col-12 mt-2 ">
+			<label  class="ml-4 samitinokhoj"> समिति नं</label> <input type="text" style="height:25px !important; width:30px !important;" id="samitino" value='${result[0]['samitino']}' autofocus class="d-inline ml-2 border-0 bg-white" disabled><label class="ml-1 " style="font-size:15px;"> सुरु मिति:</label> <input type="text" style="height:25px !important; width:100px !important;" id="startdate" value='${result[0]['startdate']}' class="d-inline ml-1 startdatekhoj border-0 bg-white" disabled><label style="font-size:15px;"> अन्तिम मिति:</label> <input type="text" style="height:25px !important;" id="startdate" value='${enddate}' class="d-inline ml-2 startdatekhoj border-0 bg-white" disabled></div>`);
 
-    	$('.appendsearch').append(`<table border="1" class=" padhadhikaaritablekhoj  table-sm">
+    	$('.appendsearch').append(`<table class=" table mr-1 padhadhikaaritablekhoj  table-md">
                         <tr class=" m-0  row text-center">
-                            <th class="col-md-4">नाम</th>
-                            <th class="col-md-3">पद</th>
-                            <th class="col-md-3">समिति</th> 
-                            <th class="col-md-2"></th> 
+                            <th style="font-size:18px !important;" class="col-md-4">नाम</th>
+                            <th  style="font-size:18px !important;" class="col-md-3">पद</th>
+                            <th style="font-size:18px !important;" class="col-md-3">समिति</th> 
+                            <th style="font-size:18px !important;" class="col-md-2"></th> 
                             </tr>`);
-               
                var postname;
                var samitiname;   
     		for(var i=0;i<result.length;i++)
@@ -407,14 +399,13 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
     			console.log("POST NAME is"+postname);
     			samitiname=returnsamiti(result[i].samiti);
     			$('.padhadhikaaritablekhoj').append(`<tr id="user-${result[i].id}" class=" m-0 extraadded  row text-center">
-			<td   class="col-md-4" id='namekhoj-${result[i].id}'>${result[i].upavoktaname}</td>
-			<td class="col-md-3 p-0" id='postkhoj-${result[i].id}'>
-			<label class="postwrite-${result[i].id} mt-1">${postname}</label>
+			<td   class="col-md-4 p-1 m-0" style="font-size:15px !important;" id='namekhoj-${result[i].id}'>${result[i].upavoktaname}</td>
+			<td style="font-size:15px !important;" class="col-md-3 p-1" id='postkhoj-${result[i].id}'><label class="postwrite-${result[i].id}   m-0">${postname}</label>
 			<select name='post-${result[i].id}' style="text-align-last:center; display:none; text-align:center;" id='postkhoj-${result[i].id}'>
 			${samitipostoptionlist}
 			</td>
-			<td class="col-md-3 p-0 " id='samitikhoj-${result[i].id}'>
-			<label class="samitiwrite-${result[i].id} mt-1">${samitiname}</label>
+			<td class="col-md-3 p-1 " style="font-size:15px !important;" id='samitikhoj-${result[i].id}'>
+			<label class="samitiwrite-${result[i].id} m-0">${samitiname}</label>
 
 			<select id="samitikhoj-${result[i].id}" class="form-control" style="text-align-last:center; text-align: center; display:none;" >
 			
@@ -422,7 +413,7 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
 			
         </select></td>
 
-			<td class="col-md-2"><button  onclick="deluser(event)" class="deletebutton-${result[i].id} border-0 bg-white btn-sm" id="${result[i].id}"><i class="fa text-danger fa-trash"></i></button><a class="modifybutton-${result[i].id} border-0 bg-white btn-sm"  href="#" onclick="javascript:modifyuser(event)" id="${result[i].id}"><i class="fa fa-edit text-info"></i></a><a href="#" class="modifysubmitbutton-${result[i].id} btn-sm border-0 bg-white" style="display:none;" onclick="javascript:modifyusersubmit(event)" id="${result[i].id}"><i class="fa fa-paper-plane text-success"></i></a><button style="display:none;" onclick="cancel(event)" class="cancel-${result[i].id} ml-2 border-0 bg-white" id="${result[i].id}"><i class="text-danger fa fa-times"></i></button></td>
+			<td  class="col-md-2 m-0 p-0"><button  onclick="deluser(event)" class="deletebutton-${result[i].id} btn btn-danger" id="${result[i].id}"><i class="fa fa-trash text-white"></i></button><a class="modifybutton-${result[i].id} border-0 ml-1 btn btn-info"  href="#" onclick="javascript:modifyuser(event)" id="${result[i].id}"><i class="fa fa-edit text-white"></i></a><a href="#" class="modifysubmitbutton-${result[i].id} btn border-0 btn-success" style="display:none;" onclick="javascript:modifyusersubmit(event)" id="${result[i].id}"><i class="fa fa-paper-plane text-white"></i></a><a href="#" style="display:none;" onclick="cancel(event)" class="cancel-${result[i].id} ml-2 border-0 btn btn-danger " id="${result[i].id}"><i class="text-white fa fa-times"></i></a></td>
 			</tr>`);
     				$('.appendsearch').find($(`select#postkhoj-${result[i].id} option`)).eq(`${result[i].post}`).attr('selected','selected');
     				$('.appendsearch').find($(`select#samitikhoj-${result[i].id} option`)).eq(`${result[i].samiti}`).attr('selected','selected');
@@ -437,7 +428,7 @@ $('.padhadhikaarikhojbutton').on('click',function(e)
     	{ 
     		$('.appendsearch').html('');
 
-    		$('.appendsearch').append(`<p class="text-center">डाटा उपलब्ध भयन</p>`);
+    		$('.appendsearch').append(`<p class="text-center">डाटा उपलब्ध भएन</p>`);
     	}
     }
    })
@@ -452,7 +443,7 @@ function deluser(event)
 
 	$.ajax({
 		type:'post',
-		url:'padhadhikaaridel',
+		url:'/padhadhikaaridel',
 		data:{ids:id},
 		success:function(data){
 			$('.appendsearch').find($(`#user-${id}`)).remove();
@@ -511,7 +502,7 @@ console.log(data1);
     // console.log(data1);
 	$.ajax({
 		type:'post',
-		url:'modifypadhadhikaarisubmit',
+		url:'/modifypadhadhikaarisubmit',
 		data:{data1:data1},
 		success:function(data){
 			$(`.deletebutton-${id}`).show();

@@ -122,7 +122,7 @@ function returnnumber(strNum) {
 
 
  function collectiontype(value) {
-    var collectionlist = { 'ढलापडा': 'dhalapada', 'पुनर्स्थापना': 'punarsthapan', 'गत वर्षकाे माैज्दात': 'previousyearmoujdat', 'उपभाेक्ता भित्र विक्री': 'upavoktabikri', 'पाेल चिरान': 'polchiran', 'जि.ब. आपूर्ति': 'jibika', 'लिलाम प्रक्रिया': 'lilamprocess' };
+    var collectionlist = { 'ढलापडा': 'dhalapada', 'पुनर्स्थापना': 'punarsthapan', 'गत वर्षकाे माैज्दात': 'previousyearmoujdat', 'उपभाेक्ता भित्र बिक्री': 'upavoktabikri', 'पाेल चिरान': 'polchiran', 'जि.ब. आपूर्ति': 'jibika', 'लिलाम प्रक्रिया': 'lilamprocess' };
     return collectionlist[value];
 }
 
@@ -141,7 +141,7 @@ function printbill(event)
    var billno= $("#billno").val();
 
 
-   if(bikritype==='उपभाेक्ता भित्र विक्री')
+   if(bikritype==='उपभाेक्ता भित्र बिक्री')
   {  
   upavoktaid=$("#userid").val();
    upavoktaname=$("#username").val();
@@ -152,43 +152,47 @@ upavoktaname=$("#username").val();
  }
    var salesdate= $("#salesdate").val();
 
-if(bikritype==="उपभाेक्ता भित्र विक्री")
+if(bikritype==="उपभाेक्ता भित्र बिक्री")
 {
- title=`<div class="logo"><h4  class="mt-3" style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
-  <p style="margin-left:70px !important;" class="mt-1">सैनामैना-१०,रूपन्देही</p></div><div class="row"><div class="col-12  salespurchasebill">
-        <label style="width:180px; visibility:hidden;">sfaG</label>
+ title=`<div class="logo" style="margin-left:320px !important;">
+ <h4  class="mt-3" >झिमझिमियाँ सामुदायिक वन </h4>
+<p style="margin-left:50px !important;" >सैनामैना-१०,रूपन्देही</p>
+  </div>
+  <br/>
+  <div class="row">
+ <div class="col-12 ml-5 salespurchasebill">
+        <label >बिल नं:</label>
+        <input  type="text" value='${billno}' class="d-inline">
        <label class='salesdateclass text-dark ml-3 d-inline '>मिति:</label>
-         <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
-         <br> 
-        <label style="font-size:8px;"> बिक्री प्रकार:</label>
-        <input style="font-size:8px;" type="text" value='${bikritype}' class="d-inline">
-         <label style="font-size:8px;">बिल नं:</label>
-        <input style="font-size:8px;" type="text" value='${billno}' class="d-inline"><br>
-        <label style="font-size:8px;">उपभाेक्ता नं:</label>
-        <input  style="font-size:8px;" type="text" name="userid" id="userid" value='${upavoktaid}' style="width:30px;" class=" d-inline" autofocus>         
-        <label  style="font-size:8px;">नाम:</label>
-        <input  style="font-size:8px;" type="text" name="accountname" value='${upavoktaname}' id="username" class="d-inline " autofocus>
-             
-       
-    </div></div>`;
+         <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2  form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
+         <br>
+        <label > बिक्री प्रकार:</label>
+        <input  type="text" value='${bikritype}' class="d-inline">
+
+        <label >उपभाेक्ता नं:</label>
+        <input   type="text" name="userid" id="userid" value='${upavoktaid}' style="width:30px;" class=" d-inline mr-3">         
+        <label  >नाम:</label>
+        <input   type="text" name="accountname" value='${upavoktaname}' id="username" class="d-inline">`;
 }
 else
 {
 
-  title=`<div class="logo"><h4 class="mt-3" style="margin-left:40px !important;" >झिमझिमियाँ सामुदायिक वन </h4>
-  <p class="mt-2" style="margin-left:70px !important;">सैनामैना-१०,रूपन्देही</p></div><div class="row"><div class="col-12  salespurchasebill">
-        <label style="width:180px; visibility:hidden;">sfaG</label>
-       <label class='salesdateclass text-dark ml-3 d-inline '>मिति:</label>
-         <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
-         <br> 
-        <label style="font-size:8px;"> बिक्री प्रकार:</label>
-        <input style="font-size:8px;" type="text" value='${bikritype}' class="d-inline"><br>
-             
-        <label  style="font-size:8px;">नाम:</label>
-        <input  style="font-size:8px;" type="text" name="accountname" value='${upavoktaname}' id="username" class="d-inline " autofocus>
-             
-       
-    </div></div>`;
+  title=`<div class="logo" style="margin-left:320px !important;">
+  <h4  class="mt-3" >झिमझिमियाँ सामुदायिक वन </h4>
+ <p style="margin-left:50px !important;" >सैनामैना-१०,रूपन्देही</p>
+   </div>
+   <br/>
+   <div class="row">
+  <div class="col-12 ml-5 salespurchasebill">
+         <label >बिल नं:</label>
+         <input  type="text" value='${billno}' class="d-inline">
+        <label class='salesdateclass text-dark ml-3 d-inline '>मिति:</label>
+          <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2  form-control mr-3 text-left p-0 d-inline" value="${salesdate}"  />
+          <br>
+         <label > बिक्री प्रकार:</label>
+         <input  type="text" value='${bikritype}' class="d-inline"> 
+         <label  >नाम:</label>
+         <input   type="text" name="accountname" value='${upavoktaname}' id="username" class="d-inline ">`;
 }
    
 
@@ -208,7 +212,7 @@ else
    var anyetable='';
   if(tableanye.length>0 && tableanyetestvalue >0)
 {
-    anyetable=`<p class="font-weight-bold">अन्य</p><table class="table w-25 anyetable text-left">
+    anyetable=`<p class="font-weight-bold">अन्य</p><table class="table mt-2 w-75 anyetable text-left">
             <tr>
                 <td>नाम</td>
                 <td>परिमाण</td>
@@ -232,7 +236,9 @@ else
 var kaathtable='';
   if(tablerow.length>1 && Number(testvalue)>0)
   {
-   kaathtable=`<p class="font-weight-bold"> काठ बिक्री</p><table class="table w-25 salestable text-left">
+   kaathtable=
+   `<p  class="font-weight-bold"> काठ बिक्री</p>
+   <table  class="table w-75 mt-2 salestable">
             <tr>
                 <td>गुल्ली नं</td>
                 <td>काठकाे नाम</td>
@@ -283,10 +289,10 @@ var daurarecord=[];
    if(Number(returnnumber($("#amount-0").val()))>0)
 {
      dauratable=`<p class="font-weight-bold"> दाउरा बिक्री</p>
-           <table class="table w-25 salestable text-left">
+           <table class="table w-75 mt-2 salestable text-left">
             <tr>
                 <td>परिमाण</td>
-                <td>मूल्य/चट्टा</td>
+                <td>मूल्य/के.जी</td>
                 <td>जम्मा</td>
             </tr>`;
 
@@ -304,7 +310,7 @@ var ghaastable;
  if(Number(returnnumber($("#ghaastotal").val()))>0)
 {
      ghaastable=`<p class="font-weight-bold"> घास बिक्री</p>
-   <table class="table w-25 salestable text-left">
+   <table class="table w-75 mt-2 salestable text-left">
             <tr>
                 <td>परिमाण</td>
                 <td>मूल्य/भारी</td>
@@ -325,11 +331,7 @@ else
 
 
 var totalamount=$("#totalamount").val();
-    var totalamountdiv=`<div class="row">
-        <div class="col-md-2 ml-5"></div>
-       
-        <label class="d-inline form-control-sm  text-center">कुल रकम </label>
-        <input class="d-inline form-control-sm col-md-2  border-0 text-left" name="totalamount" id="totalamount" value="रू ${totalamount}">`;
+    var totalamountdiv=`<input class= "form-control font-weight-bold" name="totalamount" id="totalamount" value="कुल रकम रू ${totalamount}"></div></div></div>`;
         printContents = document.getElementsByClassName("salespurchaseform")[0].outerHTML;
         popupWin = window.open("");
         popupWin.document.open();
@@ -350,17 +352,17 @@ var totalamount=$("#totalamount").val();
           {
             background:url("/js/forest.jpg") no-repeat;
             top:10px;
-            position:absolute;
+            position:relative;
             background-position:80px -2px !important;
             background-size:50px 50px; 
-            height:55px;
+            height:60px;
             z-index:333;
           
           }
             html,body,table
             {
                      color:black !important;
-                     font-size:8px !important;
+                     font-size:16px !important;
             }
              input
             {
@@ -369,12 +371,12 @@ var totalamount=$("#totalamount").val();
             </style>
             <style media="print">
 @page {
-    size:A4 landscape;
+    size:A4 ;
     margin-left: 0px;
     margin-right: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
-    margin: 0;
+  
     -webkit-print-color-adjust: exact;
 }
             
@@ -389,7 +391,9 @@ var totalamount=$("#totalamount").val();
         
 
             </style>
-        <body ">${title}${kaathtable}${dauratable}${ghaastable}${anyetable}${totalamountdiv}</body>
+        <body>
+        ${title}${kaathtable}${dauratable}${ghaastable}${anyetable}${totalamountdiv}</div></div>
+        </body>
 
           </html>`
         );
@@ -430,7 +434,7 @@ $('input#bikritypes').on('input',function(e)
   // alert('S');
   var value=e.target.value;
   // alert(value);
-  if(value==='उपभाेक्ता भित्र विक्री')
+  if(value==='उपभाेक्ता भित्र बिक्री')
   {
     $('.salespurchase').html('');
   $('.salespurchase').append(`<label style="font-size:15px;" class="ml-2">उपभाेक्ता नं </label>

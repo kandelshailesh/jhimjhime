@@ -1,26 +1,27 @@
-<div class="row mt-3">
+<div class="row ">
     <div class="col-md-2">
-        <div class="list-group ">
-            <a class="list-group-item upavoktaadd upavoktaform-1" id="upavoktaform-1">उपभाेक्ता थप</a>
-            <a class="list-group-item upavoktakhoj upavoktaform-2" id="upavoktaform-2">उपभाेक्ता खाेज</a>
-             <a data-toggle="modal" data-target="#locationModal" class="list-group-item padhadhikaarititle " >  ठेगाना थप्नुहोस</a>
+        <nav class="nav flex-column " style="color:red; border:1px solid green; box-shadow:2px 2px green;">
+            <a class="nav-link upavoktaadd upavoktaform-1" style="color:red; border:1px solid green; box-shadow:2px 2px green;" id="upavoktaform-1">उपभाेक्ता थप</a>
+            <a class="nav-link upavoktakhoj upavoktaform-2" style="color:red; border:1px solid green; box-shadow:2px 2px green;" id="upavoktaform-2">उपभाेक्ता खाेज</a>
+             <a data-toggle="modal" data-target="#locationModal" style="color:red; border:1px solid green; box-shadow:2px 2px green;" class="nav-link padhadhikaarititle " >  ठेगाना थप्नुहोस</a>
+             <a data-toggle="modal" data-target="#renewmembershipModal" style="color:red; border:1px solid green; box-shadow:2px 2px green;" class="nav-link padhadhikaarititle " > सदस्य नविकरण</a>
         </div>
-    </div>
+    
     <div class="col-md-10">
         <form class="upavoktaaddform" action="" onkeypress="return event.keyCode != 13;">
-            <div class="row upavoktaformshow-1">
-                <div class="col-md-10">
+            <div class="row mt-3 upavoktaformshow-1">
+                <div class="col-md-11">
                     <br>
                     <table class="table  upavoktatable  table-sm">
-                        <tr class=" m-0  row text-center">
-                            <th class="col-md-1">उपभाेक्ता नं</th>
-                            <th class="col-md-3">नाम</th>
-                            <th class="col-md-3">थर </th>
-                            <th class="col-md-3">ठेगाना</th>
-                            <th class="col-md-2">लिङ्ग</th>
+                        <tr class=" m-0  row text-center bg-primary">
+                            <th style="font-size:20px !important;"  class="col-md-2">उपभाेक्ता नं</th>
+                            <th  style="font-size:20px !important;" class="col-md-3">नाम</th>
+                            <th style="font-size:20px !important;" class="col-md-2">थर </th>
+                            <th style="font-size:20px !important;" class="col-md-3">ठेगाना</th>
+                            <th  style="font-size:20px !important;" class="col-md-2">लिङ्ग</th>
                         </tr>
                     </table>
-                    <button type="submit" class="btn float-right btn-outline-primary printbutton">Submit</button>
+                    <button type="submit" class="btn float-right btn-outline-primary printbutton">जोड्नुहोस</button>
                     <button type="reset" id="resetuserform" class="btn btn-outline-primary d-none">Reset</button>
                 </div>
 
@@ -28,7 +29,7 @@
         </form>
         <form class='upavoktakhojform '>
             <div class='upavoktakhoj upavoktaformshow-2 align-middle d-none  row form-group'>
-                <div class="col-md-8 mt-4 ">
+                <div class="col-md-11 text-center mt-4 ">
                     <select style="text-align-last:center; text-align: center;" class='form-control d-inline w-25 ml-4 ' id='upavoktakhojaddress' name='upavoktakhojaddress'>
                         <option value='0'>सबै</option>
                 <% locationlist.forEach(function(result){ %>
@@ -42,7 +43,7 @@
                     </select>
                     <a class='btn ml-2 btn-outline-primary col-md-1 upavoktakhojbutton'>खाेज</a>
                 </div>
-                <div class="col-md-8 mt-2 appendsearch">
+                <div class="col-md-11 mt-2 appendsearch">
                 </div>
             </div>
         </form>

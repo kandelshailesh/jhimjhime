@@ -16,11 +16,24 @@
 
 
 
-
+// chrome.exe -fullscreen --app=http://localhost:3000/voucher
 
 // 'use strict';
 var open = require("open");
-// open("http:localhost:3000/pay");
+// var child_process=require("child_process");
+// child_process.exec()
+const { exec } = require('child_process');
+// exec('start chrome.exe --start-fullscreen http:localhost:3000/ ', (err, stdout, stderr) => {
+//   if (err) {
+//     // node couldn't execute the command
+//     return;
+//   }
+
+//   // the *entire* stdout and stderr (buffered)
+//   console.log(`stdout: ${stdout}`);
+//   console.log(`stderr: ${stderr}`);
+// });
+// open("http:localhost:3000/voucher");
 var nums = {
     '०': 0,
     '१': 1,
@@ -110,7 +123,6 @@ getEmployeeNames = function(){
             if(rows === undefined){
                 reject(new Error("Error rows is undefined"));
             }else{
-
                 resolve(rows);
 
             }
@@ -294,7 +306,7 @@ app.get('/kaathdaurastatus', function(req, res) {
 app.post('/ghumtikoshadddata', function(req, res) {
     var userdata = [req.body.userid, req.body.paidamount, req.body.paymentdate];
     console.log(userdata);
-    var insertdata = "INSERT INTO `ghumtikoshpayment`(`userid`,`paidamount`, `paymentdate`) VALUES (?,)"
+    var insertdata = "INSERT INTO `ghumtikoshpayment`(`userid`,`paidamount`, `paymentdate`) VALUES (?)";
     con.query(insertdata, [userdata], function(err, result, fields) {
         if (err) throw err;
         console.log(result);
@@ -613,9 +625,21 @@ app.post('/ghumtikoshsearchdata', function(req, res) {
     // var userid= req.body.userid;
     // console.log(userid);
     // var selectdata= "SELECT gk.totalamount,u.address,gk.remainingamount,u.fname,u.lname,gk.userid from ghumtikosh as gk  inner join upavokta as u on gk.userid=u.userid where gk.userid = ?"
-    var selectdata = "SELECT gk.totalamount,u.address,gk.remainingamount,u.fname,u.lname,gk.userid from ghumtikosh as gk  inner join upavokta as u on gk.userid=u.userid  ";
+    var selectdata = "SELECT gk.totalamount,u.address,gk.remainingamount,u.fname,u.lname,gk.userid from ghumtikosh as gk  inner join upavokta as u on gk.userid=u.userid where gk.userid= ? ";
 
     con.query(selectdata,[req.body.userid],function(err, result, fields) {
+        if (err) console.log(err);
+        console.log(result);
+        res.json({ 'result': result })
+    })
+})
+app.post('/ghumtikoshsearchdata1', function(req, res) {
+    // var userid= req.body.userid;
+    // console.log(userid);
+    // var selectdata= "SELECT gk.totalamount,u.address,gk.remainingamount,u.fname,u.lname,gk.userid from ghumtikosh as gk  inner join upavokta as u on gk.userid=u.userid where gk.userid = ?"
+    var selectdata = "SELECT gk.totalamount,gk.aim,gk.interestrate,DATE_FORMAT(gk.givendate,'%Y-%m-%d') as givendate,u.address,gk.remainingamount,u.fname,u.lname,gk.userid from ghumtikosh as gk  inner join upavokta as u on gk.userid=u.userid  ";
+
+    con.query(selectdata,function(err, result, fields) {
         if (err) console.log(err);
         console.log(result);
         res.json({ 'result': result })
@@ -635,66 +659,46 @@ app.post('/jeansisamansearchdata', function(req, res) {
     })
 })
 
-app.get('/ghumtikoshbill/', function(req, res) {
+app.get('/ghumtikoshbill', function(req, res) {
     res.render('pages/ghumtikoshbill');
 })
-app.post('/ghumtikoshsubmit/', function(req, res) {
+app.post('/ghumtikoshsubmit', function(req, res) {
     console.log(req.body);
-    console.log("hello");
-    var takendata = req.body;
-    var daterecord = req.body.date;
-    var useridrecord = [req.body.userid];
-    var totalamountrecord = [req.body.totalamount];
-    var datedata = [];
-    var useriddata = [];
-    var totalamountdata = [];
-    var count = 0;
-    console.log(daterecord);
-    useridrecord.forEach(function(userid) {
+    // console.log("hello");
+    // var takendata = req.body;
+    // var daterecord = req.body.date;
+    var userid = [req.body.o.userid];
+    var username = [req.body.o.username];
+    var givenamount = [req.body.o.givenamount];
+    var interestrate= [req.body.o.interestrate];
+    var givendate= [req.body.o.givendate];
+    var returndate= [req.body.o.returndate];
+    var aim= [req.body.o.motive];
+    // var totalamountdata = [];
+    // var count = 0;
+    // console.log(daterecord);
 
-        useriddata.push(userid);
-        count++;
-    });
-    console.log(useriddata);
-    console.log(datedata);
-    totalamountrecord.forEach(function(totalamount) {
-        totalamountdata.push(totalamount);
-        datedata.push(daterecord);
+    for(i=0;i<userid[0].length;i++)
+    {
+    var insertghumtikoshdata ="INSERT INTO `ghumtikosh`(`userid`, `username`,`totalamount`, `remainingamount`, `aim`, `interestrate`, `givendate`, `returndate`) VALUES (?,?,?,?,?,?,?,?)";
 
-    });
-    console.log(datedata);
-    console.log(useriddata);
-    console.log(totalamountdata);
-    // useridrecord.forEach(function(userid)
-    // {
-    // useriddata.push([userid]);
-    // }
-    //   )
-    if (count > 1) {
-        totalamountrecord[0].forEach(function(totalamount, counter) {
-            var insertghumtikoshdata = "INSERT INTO `ghumtikosh`(`userid`,`totalamount`, `givendate`, `remainingamount`) VALUES (?,?,?,?)";
-
-            con.query(insertghumtikoshdata, [useriddata[0][counter], totalamountdata[0][counter], datedata[0], totalamountdata[0][counter]], function(err, result) {
-                if (err) console.log(err);
+            con.query(insertghumtikoshdata, [userid[i],username[i],givenamount[i],0,aim[i], interestrate[i],givendate[0],returndate[0]], function(err, result) {
+                if (err) 
+            {
+                console.log(err);
+                res.status(500).send({'err':'sdsds'});
+            }
+            else
+            {
                 console.log("Submiitted successfully");
+                res.status(200).send({'msg':'डाटा इन्ट्री सफल भयो'})
+            }
             })
+        }
+
 
         })
-    } else {
-        var insertghumtikoshdata = "INSERT INTO `ghumtikosh`(`userid`,`totalamount`, `givendate`, `remainingamount`) VALUES (?,?,?,?)";
 
-        con.query(insertghumtikoshdata, [useriddata, totalamountdata, datedata, totalamountdata], function(err, result) {
-            if (err) console.log(err);
-            console.log("Submiitted successfully");
-        })
-
-
-    }
-
-
-
-    res.render('pages/ghumtikosh');
-});
 app.post('/edit/paymentsubmit/:id', function(req, res) {
     // var updatingdata
     // var transactionno= req.params.id;
@@ -810,6 +814,22 @@ app.post('/kaathdata', function(req, res) {
     var accountquery = "SELECT * from kaathaamdani where gullino=?";
     con.query(accountquery, [gullino], function(err, results, fields) {
         res.json({ result: results });
+    });
+});
+
+app.post('/upavoktaforghumtikosh', function(req, res) {
+    var userid = req.body.userid;
+    var accountquery = "SELECT * from upavokta where userid=?";
+    con.query(accountquery, [userid], function(err, results, fields) {
+        if(results.length === 0)
+        {
+            // console.log(err);
+            res.status(500).send({errormsg:'यो उपभोक्ता नं छैन'});
+        }
+        else{
+            console.log(results);
+        res.status(200).json({ result: results });
+        }
     });
 });
 
@@ -1115,7 +1135,7 @@ var getbanpaidawarid=`SELECT * from kagroups where katitle="वन पैदा�
                 
                 
          // alert(value);
-  if(value==='उपभाेक्ता भित्र विक्री')
+  if(value==='उपभाेक्ता भित्र बिक्री')
   {
 var kaathbikridetailsrecord = [a['bikritypes'],getenglish(a['userid']),a['accountname'],getenglish(a['totalamount']), a['salesdate'],a['billno']];
 var insert1 = "INSERT INTO `kaathbikridetails`(`bikritype`,`customerid`,`personname`, `total`, `salesdate`,`billno`) values ?";

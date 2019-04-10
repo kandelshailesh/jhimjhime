@@ -9,13 +9,13 @@
 
  <input id="billno" name="billno" readonly style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline border-0" autocomplete="off" />
 
-         <input id="salesdate" name="salesdate" style="width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-left p-0 d-inline float-right " autocomplete="off" required >
+         <input id="salesdate" name="salesdate" style="font-size: 15px; border:1px solid lightblue !important; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;width:100px !important; " type="text" class=" ml-2 form-control mr-3 text-center p-0 d-inline float-right " autocomplete="off" required >
         <label class='salesdateclass text-dark d-inline float-right'>मिति:</label>
         <br>
         <label style="font-size:15px;">बिक्री प्रकार</label>
-        <input type="text" list="bikritype" required name="bikritypes" id="bikritypes" class="form-control w-25 d-inline ml-2 mr-2 " autofocus>
+        <input style="font-size: 15px; border:1px solid lightblue !important; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px lightblue !important;" type="text" list="bikritype" required name="bikritypes" id="bikritypes" class="form-control w-25 d-inline ml-2 mr-2 " autofocus>
         <datalist id="bikritype" >
-            <option>उपभाेक्ता भित्र विक्री</option>
+            <option>उपभाेक्ता भित्र बिक्री</option>
             <option>पाेल चिरान</option>
             <option>जि.ब. आपूर्ति </option>
             <option>लिलाम प्रक्रिया</option>
@@ -33,7 +33,7 @@
 
     <div style="max-height: 400px;" class="table-responsive mt-3">
         <table class="salestable table table-bordered">
-            <tr class=" m-0 bg-dark text-white row text-center">
+            <tr class=" m-0 bg-primary text-white row text-center">
             	<th class="col-md-1">S.N.</th>
                 <th class="col-md-1">गुल्ली नं</th>
                 <th class="col-md-4">काठकाे नाम</th>
@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-md-12 ">
             <input type="text" class="form-control  rounded-0 text-center d-inline w-25" placeholder="परिमाण" name="daauraquantity" id="quantity-0" pattern="^[०-९\.]*$">
-            <input pattern="^[०-९\.]*$"  type="text" class="form-control rounded-0 text-center d-inline w-25" placeholder="मूल्य/चट्टा" id="per-0" name="daauraper">
+            <input pattern="^[०-९\.]*$"  type="text" class="form-control rounded-0 text-center d-inline w-25" placeholder="मूल्य/के.जी" id="per-0" name="daauraper">
             <input pattern="^[०-९\.]*$"  type="text" id="amount-0" class="form-control text-center rounded-0 d-inline w-25" placeholder="जम्मा
 " name="daauratotal" value="०">
         </div>

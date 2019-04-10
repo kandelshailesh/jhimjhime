@@ -26,7 +26,7 @@ $("#daybookkhoj").on('click',function(e)
 		    if(data.results.length>0)
 {
 	$('.daybookdiv').html('');
-	 $('.daybookdiv').append(`<table class="table table-bordered table-hover daybooktable">
+	 $('.daybookdiv').append(`<table class=" ml-3 table table-bordered table-hover daybooktable">
                         <tr>
                             <th> मिति</th>
                             <th> प्रकार</th>
